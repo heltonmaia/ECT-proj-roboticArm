@@ -6,7 +6,7 @@ for i in range(10):
 
     # Se for encontrado pelo método read, indica o índice
     if cap.read()[0]:
-        print("Dispositivo de captura encontrado no índice:", i)
+        print(f'Dispositivo de captura encontrado no índice {i}')
 
     # Libera o acesso
     cap.release()
