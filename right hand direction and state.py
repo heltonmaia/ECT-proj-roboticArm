@@ -16,8 +16,8 @@ mp_holistic = mp.solutions.holistic
 cap = cv2.VideoCapture(0)
 
 # Inicializa o modelo holístico e dá um nickname
-with mp_holistic.Holistic(min_detection_confidence=0.4,
-                          min_tracking_confidence=0.4) as holistic:
+with mp_holistic.Holistic(min_detection_confidence=0.5,
+                          min_tracking_confidence=0.5) as holistic:
     # Loop que executa enquanto o dispositivo de captura estiver aberto
     while cap.isOpened():
         # Leu recebe o booleano que indica se a leitura foi feita corretamente
