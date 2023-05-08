@@ -59,7 +59,7 @@ with mp_holistic.Holistic(min_detection_confidence=0.5,
             dist2center = 0.08
             # distmin recebe o valor mínimo para se considerar que os dedos se tocaram
             distmin = 0.03
-            # Variáveis para os limites esquerdo, esquerto, superior e inferior
+            # Variáveis para os limites esquerdo e direito
             leftL = hand_x - dist2center
             rightL = hand_x + dist2center
 
