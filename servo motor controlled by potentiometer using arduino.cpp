@@ -1,4 +1,4 @@
-1#include <Servo.h>
+#include <Servo.h>
 
 #define pinServo 8
 #define pinPotenciometro A0
