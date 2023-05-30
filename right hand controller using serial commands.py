@@ -1,6 +1,6 @@
 import mediapipe as mp
 import cv2
-import import serial
+import serial
 
 # Tenta se conectar a porta serial. Caso não consiga, exibe uma mensagem
 try:
