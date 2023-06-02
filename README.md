@@ -41,7 +41,7 @@ pip install pyserial
 ```
 pip install ipykernel
 ```
-After all the installations are complete, you need to register your conda virtual environment using the ipykernel module. If you don't do this, the Jupyter Notebook will not recognize your virtual environment and the packages on it. Once again change MyEnvironmentName to the name you gave it
+After all the installations are complete, you need to register your conda virtual environment using the ipykernel module. If you don't do this, the Jupyter Notebook, that was installed within the Anaconda package, will not recognize your virtual environment and the packages on it. Once again change MyEnvironmentName to the name you gave it
 ```
 python -m ipykernel install --user --name=MyEnvironmentName
 ```
@@ -53,4 +53,4 @@ If you don't have a webcam, you can use the Droidcam app on a smartphone to use 
   - Install the Droidcam client on Windows: [Download page](https://www.dev47apps.com/droidcam/windows/)
   - Then follow the instructions to connect: [Connection guide](https://www.dev47apps.com/droidcam/connect/)
 
-Once you have access to a camera, open Jupyter notebook 
+Once you have access to a camera, use Jupyter Notebook to open the file "right hand detection in range" available in this project, then change the kernel within the code editor to your virtual environment's one. Now you can run the script and see if the right hand is detected within the specified range.
