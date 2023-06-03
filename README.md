@@ -41,7 +41,7 @@ pip install pyserial
 ```
 pip install ipykernel
 ```
-After all the installations are complete, you need to register your conda virtual environment using the ipykernel module. If you don't do this, the Jupyter Notebook, that was installed within the Anaconda package, will not recognize your virtual environment and the packages on it. Once again change MyEnvironmentName to the name you gave it
+After all the installations are complete, you need to register your conda virtual environment using the ipykernel module. If you don't do this, the Jupyter Notebook, that was installed within the Anaconda package, will not recognize your virtual environment and the modules on it. Once again change MyEnvironmentName to the name you gave it
 ```
 python -m ipykernel install --user --name=MyEnvironmentName
 ```
