@@ -46,7 +46,7 @@ After all the installations are complete, you need to register your conda virtua
 python -m ipykernel install --user --name=MyEnvironmentName
 ```
 ### **Detecting the hand**
-To use the main algorithm, it is necessary to ensure correct hand detection of the hand via mediapipe.
+To use the main algorithm, it is necessary to ensure the correct hand detection via mediapipe.
 #### **Accessing the camera**
 If you don't have a webcam, you can use the Droidcam app on a smartphone to use the phone's camera as a webcam
   - Install the Droidcam app (Android or IOS): [Download page](https://www.dev47apps.com)
