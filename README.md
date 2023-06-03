@@ -30,10 +30,10 @@ conda activate MyEnvironmentName
 ### **Installing modules and registering the environment**
 Now the installation of the modules listed in the requirements is perfomed, and they will only be installed in your virtual environment, which is activated
 ```
-pip istall opencv-python
+pip install opencv-python
 ```
 ```
-pip istall mediapipe
+pip install mediapipe
 ```
 ```
 pip install pyserial
