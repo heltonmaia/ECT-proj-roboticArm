@@ -56,3 +56,6 @@ If you don't have a webcam, you can use the Droidcam app on a smartphone to use 
 Once you have access to a camera, use Jupyter Notebook to open the file "right hand detection in range" available in this project, then change the kernel within the code editor to your virtual environment's one. Now you can run the script and see if the right hand is detected within the specified range.
 
 <p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/hand%20detection%20in%20range.PNG"></p>
+
+After the correct detection of the hand, you can start the Arduino part of the project. Once you installed the Arduino IDE, you can use the code called "servo motor controlled by potentiometer using arduino" to properly prepare the environment.
+
