@@ -4,7 +4,7 @@ import serial
 
 # Tenta se conectar a porta serial. Caso não consiga, exibe uma mensagem
 try:
-    ser = serial.Serial("COM8", 9600, timeout=0.01)
+    ser = serial.Serial("COMX", 9600, timeout=0.01)
     ser.open()
 except serial.SerialException:
     print("Porta USB não conectada no Arduino")
