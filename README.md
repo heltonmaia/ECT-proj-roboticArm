@@ -53,9 +53,47 @@ If you don't have a webcam, you can use the Droidcam app on a smartphone to use 
   - Install the Droidcam client on Windows: [Download page](https://www.dev47apps.com/droidcam/windows/)
   - Then follow the instructions to connect: [Connection guide](https://www.dev47apps.com/droidcam/connect/)
 
-Once you have access to a camera, use Jupyter Notebook to open the file "right hand detection in range" available in this project, then change the kernel within the code editor to your virtual environment's one. Now you can run the script and see if the right hand is detected within the specified range.
+Once you have access to a camera, use Jupyter Notebook to open the file "right hand detection in range.py" available in this project, then change the kernel within the code editor to your virtual environment's one. Now you can run the script and see if the right hand is detected within the specified range.
 
-<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/hand%20detection%20in%20range.PNG"></p>
+<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/hand%20detection%20in%20range.PNG" style="width: 600px; height: 420px;"></p>
 
-After the correct detection of the hand, you can start the Arduino part of the project. Once you installed the Arduino IDE, you can use the code called "servo motor controlled by potentiometer using arduino" to properly prepare the environment.
+After the correct detection of the hand it is necessary to close the jupyter notebook and deactivate the virtual environment, and only after the Arduino part is done be activated again, otherwise both codes will try to take control of the serial port and the serial commands comming from the python script will not be read. The next access to the Anaconda prompt and the Jupyter Notebook should be via the Anaconda Navigator, after running it as administrator and while the Arduino script is running.
 
+You can deactivate your virtual environment typing in the Anaconda prompt
+```
+conda deactivate
+```
+
+### **Configuring the Arduino IDE**
+Once you installed the Arduino IDE, you can download zip file the VarSpeedServo library available [here](https://github.com/netlabtoolkit/VarSpeedServo) and install it by following [this guide](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries).
+Once complete, copy the code of the file "serial port command receiver.cpp" to the Arduino IDE, and start the next part. 
+
+### **Assembling the circuit**
+The following circuit was simulated using the [Wokwi](https://wokwi.com/projects/new/arduino-uno) online platform, and considering that the four servomotors are already fitted to the robotic arm, the circuit of this image bellow must be physically assembled.
+
+<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/wokwi.PNG" style="width: 600px; height: 420px;"></p>
+
+Make sure that the digital pins on the Arduino board receiving the signal jumpers from the servomotors are the integer variable values specified in the code "serial port command receiver.cpp" as "something_pin". 
+
+Select the right serial port within the IDE (the one that says "Arduino Uno"), compile and send the code to the board.
+
+### **Using the main algorithm**
+While the Arduino script is running, run Anaconda Navigator as administrator and launch the Anaconda prompt. Activate your virtual environment, go back to the Navigator interface and launch Jupyter Notebook.
+
+Can copy the code of the main algorithm named "right hand controller using serial commands.py" to a Jupyter Notebook file. 
+
+Locate the declaration of the object "ser", which uses the pyserial module
+``` python
+ser = serial.Serial("COMX", 9600, timeout=0.01)
+```
+Change "COMX" to the serial port currently connected to the arduino(check the Arduino IDE in case you don't remember), for example COM3, COM12 etc.
+
+Now you can run the the code and controll the robotic arm by the movements of your right hand. Check the examples bellow to understand the expected hand positions.
+
+# **Examples**
+The following images are examples that show what approximate positions the right hand must be in for detections to be made correctly.
+<h3 align="center"><b>Open hand</b></h3>
+<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/open%20hand.PNG" style="width: 600px; height: 420px;"></p>
+
+<h3 align="center"><b>Closed hand</b></h3>
+<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/closed%20hand.PNG" style="width: 600px; height: 420px;"></p>
