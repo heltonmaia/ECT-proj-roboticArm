@@ -1,5 +1,13 @@
-# Robotic Arm Control Using Computer Vision and Machine Learning
 Project developed at the Robotics and Automation Laboratory (UFRN/LAR)
+
+Project members:
+- Student 1
+- Student 2
+- Student 3
+
+Supervisor: [Helton Maia](https://github.com/heltonmaia/) 
+
+# Robotic Arm Control Using Computer Vision and Machine Learning
 
 Computer vision, 3D printing, and Arduino integration project, with the main objective of enabling a robotic arm to reproduce the movements of a human arm. The project involves a series of technologies using the OpenCV computer vision library, such as real-time capture of images through a webcam or smartphone. Then, the detection of points of interest, such as the hand and arm, is performed using the MediaPipe framework. Finally, the control of the robotic arm, which was made via 3D printing, is performed by Arduino according to serial port commands given by the python script using the Pyserial module. This control is based on an intelligent decision-making system that links the robotic arm's movements to the user's.
 
