@@ -88,7 +88,7 @@ Select the right serial port within the IDE (the one that says "Arduino Uno"), c
 ### **Using the main algorithm**
 While the Arduino script is running, run Anaconda Navigator as administrator and launch the Anaconda prompt. Activate your virtual environment, go back to the Navigator interface and launch Jupyter Notebook.
 
-Can copy the code of the main algorithm named "right hand controller using serial commands.py" to a Jupyter Notebook file. 
+Use the code of the main algorithm named "right hand controller using serial commands.py" to a Jupyter Notebook file. 
 
 Locate the declaration of the object "ser", which uses the pyserial module
 ``` python
