@@ -8,3 +8,9 @@ UART
 https://www.electronicwings.com/raspberry-pi/raspberry-pi-uart-communication-using-python-and-c
 https://docs.micropython.org/en/latest/library/machine.UART.html
 ---------------------------------------------------------------
+
+---------------------------------------------------------------
+Suporte celular
+https://grabcad.com/library/chair-phone-stand-iphone-12-pro-13-charging-point-1/details?folder_id=13751191
+https://grabcad.com/library/mobile-stand-44
+---------------------------------------------------------------
