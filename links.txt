@@ -3,3 +3,8 @@ Adafruit 16-Channel 12-bit PWM/Servo Driver
 https://learn.adafruit.com/16-channel-pwm-servo-driver?view=all
 ---------------------------------------------------------------
 
+---------------------------------------------------------------
+UART
+https://www.electronicwings.com/raspberry-pi/raspberry-pi-uart-communication-using-python-and-c
+https://docs.micropython.org/en/latest/library/machine.UART.html
+---------------------------------------------------------------
