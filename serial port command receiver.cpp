@@ -42,12 +42,12 @@ void loop() {
     }
 
     if(comando == '2'){
-      base_pos = 0;
+      base_pos = 90;
       base.slowmove(base_pos, 30);
     }
 
     if(comando == '3'){
-      base_pos = 60;
+      base_pos = 180;
       base.slowmove(base_pos, 30);
     }
 
@@ -59,10 +59,10 @@ void loop() {
     }
 
     if(comando == '5'){
-      haste1_pos = 60;
-      haste1.slowmove(haste1_pos, 60);
-      haste2_pos = 150;
-      haste2.slowmove(haste2_pos, 60);
+      haste1_pos = 50;
+      haste1.slowmove(haste1_pos, 50);
+      haste2_pos = 170;
+      haste2.slowmove(haste2_pos, 50);
     }
     
   }
