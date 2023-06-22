@@ -1,15 +1,76 @@
 import mediapipe as mp
 import cv2
 import serial
+import sys
 
-# Tenta se conectar a porta serial. Caso não consiga, exibe uma mensagem
-try:
-    ser = serial.Serial("COMX", 9600, timeout=0.01)
-    ser.open()
-except serial.SerialException:
-    print("Porta USB não conectada no Arduino")
-    pass
-
+################################################################################
+# Função de liberar conexões                                                   #
+def releaseConnections(cap, ser):                                              #
+    # Libera o acesso à câmera                                                 #
+    if cap.isOpened():                                                         #
+        cap.release()                                                          #
+                                                                               #
+    # Fecha a conexão serial                                                   #
+    if ser.is_open:                                                            #
+        ser.close()                                                            #
+                                                                               #
+    cv2.destroyAllWindows()                                                    #
+                                                                               #
+# Função da mão aberta                                                         #
+def aberta(ser):                                                               #
+    try:                                                                       #
+        ser.write(b'1')                                                        #
+    except serial.SerialException:                                             #
+        print(f"Erro ao escrever na porta serial o comando de mão aberta")     #
+        releaseConnections(cap, ser)                                           #
+        sys.exit(1)                                                            #
+                                                                               #
+# Função da mão fechada                                                        #
+def fechada(ser):                                                              #
+    try:                                                                       #
+        ser.write(b'0')                                                        #
+    except serial.SerialException:                                             #
+        print("Erro ao escrever na porta serial o comando de mão fechada")     #
+        releaseConnections(cap, ser)                                           #
+        sys.exit(1)                                                            #
+                                                                               #
+# Função da mão acima                                                          #
+def acima(ser):                                                                #
+    try:                                                                       #
+        ser.write(b'4')                                                        #
+    except serial.SerialException:                                             #
+        print("Erro ao escrever na porta serial o comando de mão acima")       #
+        releaseConnections(cap, ser)                                           #
+        sys.exit(1)                                                            #
+                                                                               #
+# Função da mão abaixo                                                         #
+def abaixo(ser):                                                               #
+    try:                                                                       #
+        ser.write(b'5')                                                        #
+    except serial.SerialException:                                             #
+        print("Erro ao escrever na porta serial o comando de mão abaixo")      #
+        releaseConnections(cap, ser)                                           #
+        sys.exit(1)                                                            #
+                                                                               #
+# Função da mão à direita                                                      #
+def direita(ser):                                                              #
+    try:                                                                       #
+        ser.write(b'2')                                                        #
+    except serial.SerialException:                                             #
+        print("Erro ao escrever na porta serial o comando de mão à direita")   #
+        releaseConnections(cap, ser)                                           #
+        sys.exit(1)                                                            #
+                                                                               #
+# Função da mão à esquerda                                                     #
+def esquerda(ser):                                                             #
+    try:                                                                       #
+        ser.write(b'3')                                                        #
+    except serial.SerialException:                                             #
+        print("Erro ao escrever na porta serial o comando de mão à esquerda")  #
+        releaseConnections(cap, ser)                                           #
+        sys.exit(1)                                                            #
+################################################################################
+  
 # Desenha as detecções para que o open-cv possa acessar
 mp_drawing = mp.solutions.drawing_utils
 
@@ -19,6 +80,13 @@ mp_holistic = mp.solutions.holistic
 # Seleciona o dispositivo de captura
 # Cria um overlay no feed da camera com as detecções do modelo holístico
 cap = cv2.VideoCapture(0)
+
+# Tenta se conectar a porta serial. Caso não consiga, exibe uma mensagem
+try:
+    ser = serial.Serial("COM3", 9600, timeout=0.01)
+    ser.open()
+except serial.SerialException:
+    print('Conectando...')
 
 # Inicializa o modelo holístico e dá um nickname
 with mp_holistic.Holistic(min_detection_confidence=0.5,
@@ -101,30 +169,30 @@ with mp_holistic.Holistic(min_detection_confidence=0.5,
                 # Detecta se a mão está fechada ou aberta
                 if abs(ind.x - pol.x) <= distmin:
                     # Fechada
-                    ser.write(b'0')
+                    fechada(ser)
                 else:
                     # Aberta
-                    ser.write(b'1')
+                    aberta(ser)
 
                 # Posição da mão nos eixos x e y
                 if hand_x <= 0.5:
                     if hand_y <= 0.5:
                         # Direita acima
-                        ser.write(b'2')
-                        ser.write(b'4')
+                        direita(ser)
+                        acima(ser)
                     elif hand_y > 0.5:
                         # Direita abaixo
-                        ser.write(b'2')
-                        ser.write(b'5')
+                        direita(ser)
+                        abaixo(ser)
                 elif hand_x > 0.5:
                     if hand_y <= 0.5:
                         # Esquerda acima
-                        ser.write(b'3')
-                        ser.write(b'4')
+                        esquerda(ser)
+                        acima(ser)
                     elif hand_y > 0.5:
                         # Esquerda abaixo
-                        ser.write(b'3')
-                        ser.write(b'5')
+                        esquerda(ser)
+                        abaixo(ser)
 
         # Exibe o frame processado
         cv2.imshow('Camera Feed', image)
@@ -133,9 +201,4 @@ with mp_holistic.Holistic(min_detection_confidence=0.5,
         if cv2.waitKey(10) & 0xFF == ord('t'):
             break
             
-# Fecha a conexão serial
-ser.close()
-
-# Libera o acesso e fecha a janela
-cap.release()
-cv2.destroyAllWindows()
+releaseConnections(cap, ser)
