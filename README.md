@@ -13,6 +13,10 @@ Computer vision, 3D printing, and Arduino integration project, with the main obj
 
 This project was developed and tested on **Windows 10 and 11**, using **python 3.10.9 within the Anaconda package** and the **Arduino IDE 2.0**
 
+https://github.com/heltonmaia/ECT-proj-roboticArm/assets/4681481/2796c126-4182-4c66-be8b-e16110343908
+
+Project video 
+
 # Using the hand controller algorithm
 ### **Requirements**
   - Anaconda package: [Install Guide](https://docs.anaconda.com/free/navigator/install/)
