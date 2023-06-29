@@ -27,10 +27,10 @@ void setup() {
 
 void loop() {
   
-  // Move o servo 12
-  mover(12, 180);
-
-  // Move o servo 15
-  mover(15, 180);
+  // Move os servos
+  mover(12, 90);
+  mover(13, 90);
+  mover(14, 90);
+  mover(15, 90);
 
 }
