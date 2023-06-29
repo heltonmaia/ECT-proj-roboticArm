@@ -46,9 +46,9 @@ void setup() {
 void loop() {
   
   // Move os servos
-  mover(garra, 90, 30);
-  mover(haste1, 90, 30);
-  mover(haste2, 90, 30);
-  mover(base, 90, 30);
+  mover(garra, 30, 90);
+  mover(haste1, 30, 90);
+  mover(haste2, 30, 90);
+  mover(base, 30, 90);
 
 }
