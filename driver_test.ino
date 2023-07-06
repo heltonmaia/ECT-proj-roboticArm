@@ -6,28 +6,33 @@
 #define servoMAX 460
 
 Adafruit_PWMServoDriver driver = Adafruit_PWMServoDriver();
+int posicaoAtual[4];
+// A posição inicial de cada servo eh 90 graus
+int ang = 90;
 
 // Função slowmove
-void slowmove(unsigned int servoIndice, unsigned int delay_ms, unsigned int angulo_destino, unsigned int angulo_origem){
+void slowmove(unsigned int servoIndice, unsigned int delay_ms, unsigned int angulo_destino){
 
-  if(angulo_destino > angulo_origem){
-    for(int i = angulo_origem; i < angulo_destino; ++i){
+  if(posicaoAtual[servoIndice - 12] == angulo_destino) return;
+
+  if(angulo_destino > posicaoAtual[servoIndice - 12]){
+
+    for(int i = posicaoAtual[servoIndice - 12]; i < angulo_destino; ++i){
       driver.setPWM(servoIndice, 0, i);
       delay(delay_ms);
     }
+
   } else {
-    for(int i = angulo_origem; i > angulo_destino; --i){
+
+    for(int i = posicaoAtual[servoIndice - 12]; i > angulo_destino; --i){
       driver.setPWM(servoIndice, 0, i);
       delay(delay_ms);
     }
+
   }
-}
 
-// Função para mover a posição de um servo informando o angulo em graus
-void mover(unsigned int servoIndice, unsigned int angulo){
+  posicaoAtual[servoIndice - 12] = angulo_destino;
 
-  // Move para a posição desejada
-  driver.setPWM(servoIndice, 0, pwm);
 }
 
 void setup() {
@@ -36,6 +41,14 @@ void setup() {
   driver.begin();
   // Frequencia PWM
   driver.setPWMFreq(60);
+
+  unsigned int pwm = map(ang, 0, 180, servoMIN, servoMAX);
+
+  // Armazena as posições atuais de cada servo no array de posições
+  for(int i = 12; i < 16; ++i){
+    driver.setPWM(i, 0, pwm);
+    posicaoAtual[i - 12] = ang;
+  }
 }
 
 void loop() {
