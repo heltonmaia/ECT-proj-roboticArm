@@ -7,11 +7,24 @@
 
 Adafruit_PWMServoDriver driver = Adafruit_PWMServoDriver();
 
+// Função slowmove
+void slowmove(unsigned int servoIndice, unsigned int delay_ms, unsigned int angulo_destino, unsigned int angulo_origem){
+
+  if(angulo_destino > angulo_origem){
+    for(int i = angulo_origem; i < angulo_destino; ++i){
+      driver.setPWM(servoIndice, 0, i);
+      delay(delay_ms);
+    }
+  } else {
+    for(int i = angulo_origem; i > angulo_destino; --i){
+      driver.setPWM(servoIndice, 0, i);
+      delay(delay_ms);
+    }
+  }
+}
+
 // Função para mover a posição de um servo informando o angulo em graus
 void mover(unsigned int servoIndice, unsigned int angulo){
-
-  // Usa a função map pra converter graus para pwm
-  unsigned int pwm = map(angulo, 0, 180, servoMIN, servoMAX);
 
   // Move para a posição desejada
   driver.setPWM(servoIndice, 0, pwm);
@@ -28,9 +41,9 @@ void setup() {
 void loop() {
   
   // Move os servos
-  mover(12, 90);
-  mover(13, 90);
-  mover(14, 90);
-  mover(15, 90);
+  slowmove(12, 50, 90, 0);
+  slowmove(13, 50, 90, 0);
+  slowmove(14, 50, 90, 0);
+  slowmove(15, 50, 90, 0);
 
 }
