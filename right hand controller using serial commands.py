@@ -3,73 +3,71 @@ import cv2
 import serial
 import sys
 
-################################################################################
-# Função de liberar conexões                                                   #
-def releaseConnections(cap, ser):                                              #
-    # Libera o acesso à câmera                                                 #
-    if cap.isOpened():                                                         #
-        cap.release()                                                          #
-                                                                               #
-    # Fecha a conexão serial                                                   #
-    if ser.is_open:                                                            #
-        ser.close()                                                            #
-                                                                               #
-    cv2.destroyAllWindows()                                                    #
-                                                                               #
-# Função da mão aberta                                                         #
-def aberta(ser):                                                               #
-    try:                                                                       #
-        ser.write(b'1')                                                        #
-    except serial.SerialException:                                             #
-        print(f"Erro ao escrever na porta serial o comando de mão aberta")     #
-        releaseConnections(cap, ser)                                           #
-        sys.exit(1)                                                            #
-                                                                               #
-# Função da mão fechada                                                        #
-def fechada(ser):                                                              #
-    try:                                                                       #
-        ser.write(b'0')                                                        #
-    except serial.SerialException:                                             #
-        print("Erro ao escrever na porta serial o comando de mão fechada")     #
-        releaseConnections(cap, ser)                                           #
-        sys.exit(1)                                                            #
-                                                                               #
-# Função da mão acima                                                          #
-def acima(ser):                                                                #
-    try:                                                                       #
-        ser.write(b'4')                                                        #
-    except serial.SerialException:                                             #
-        print("Erro ao escrever na porta serial o comando de mão acima")       #
-        releaseConnections(cap, ser)                                           #
-        sys.exit(1)                                                            #
-                                                                               #
-# Função da mão abaixo                                                         #
-def abaixo(ser):                                                               #
-    try:                                                                       #
-        ser.write(b'5')                                                        #
-    except serial.SerialException:                                             #
-        print("Erro ao escrever na porta serial o comando de mão abaixo")      #
-        releaseConnections(cap, ser)                                           #
-        sys.exit(1)                                                            #
-                                                                               #
-# Função da mão à direita                                                      #
-def direita(ser):                                                              #
-    try:                                                                       #
-        ser.write(b'2')                                                        #
-    except serial.SerialException:                                             #
-        print("Erro ao escrever na porta serial o comando de mão à direita")   #
-        releaseConnections(cap, ser)                                           #
-        sys.exit(1)                                                            #
-                                                                               #
-# Função da mão à esquerda                                                     #
-def esquerda(ser):                                                             #
-    try:                                                                       #
-        ser.write(b'3')                                                        #
-    except serial.SerialException:                                             #
-        print("Erro ao escrever na porta serial o comando de mão à esquerda")  #
-        releaseConnections(cap, ser)                                           #
-        sys.exit(1)                                                            #
-################################################################################
+# Função de liberar conexões                                                   
+def releaseConnections(cap, ser):                                              
+    # Libera o acesso à câmera                                                 
+    if cap.isOpened():                                                         
+        cap.release()                                                          
+                                                                               
+    # Fecha a conexão serial                                                   
+    if ser.is_open:                                                            
+        ser.close()                                                            
+                                                                               
+    cv2.destroyAllWindows()                                                    
+                                                                               
+# Função da mão aberta                                                         
+def aberta(ser):                                                               
+    try:                                                                       
+        ser.write(b'1')                                                        
+    except serial.SerialException:                                             
+        print(f"Erro ao escrever na porta serial o comando de mão aberta")     
+        releaseConnections(cap, ser)                                           
+        sys.exit(1)                                                            
+                                                                               
+# Função da mão fechada                                                        
+def fechada(ser):                                                              
+    try:                                                                       
+        ser.write(b'0')                                                        
+    except serial.SerialException:                                             
+        print("Erro ao escrever na porta serial o comando de mão fechada")     
+        releaseConnections(cap, ser)                                           
+        sys.exit(1)                                                            
+                                                                               
+# Função da mão acima                                                          
+def acima(ser):                                                                
+    try:                                                                       
+        ser.write(b'4')                                                        
+    except serial.SerialException:                                             
+        print("Erro ao escrever na porta serial o comando de mão acima")       
+        releaseConnections(cap, ser)                                           
+        sys.exit(1)                                                            
+                                                                               
+# Função da mão abaixo                                                         
+def abaixo(ser):                                                               
+    try:                                                                       
+        ser.write(b'5')                                                        
+    except serial.SerialException:                                             
+        print("Erro ao escrever na porta serial o comando de mão abaixo")      
+        releaseConnections(cap, ser)                                           
+        sys.exit(1)                                                            
+                                                                               
+# Função da mão à direita                                                      
+def direita(ser):                                                              
+    try:                                                                       
+        ser.write(b'2')                                                        
+    except serial.SerialException:                                             
+        print("Erro ao escrever na porta serial o comando de mão à direita")   
+        releaseConnections(cap, ser)                                           
+        sys.exit(1)                                                            
+                                                                               
+# Função da mão à esquerda                                                     
+def esquerda(ser):                                                             
+    try:                                                                       
+        ser.write(b'3')                                                        
+    except serial.SerialException:                                             
+        print("Erro ao escrever na porta serial o comando de mão à esquerda")  
+        releaseConnections(cap, ser)                                           
+        sys.exit(1)                                                            
   
 # Desenha as detecções para que o open-cv possa acessar
 mp_drawing = mp.solutions.drawing_utils
