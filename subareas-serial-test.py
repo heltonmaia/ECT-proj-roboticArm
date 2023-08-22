@@ -207,10 +207,8 @@ with mp_holistic.Holistic(min_detection_confidence=0.5,
 
                 # Detecta se a mão está fechada ou aberta
                 if abs(ind.x - pol.x) <= distmin:
-                    # Fechada
                     fechada(ser)
                 else:
-                    # Aberta
                     aberta(ser)
 
                 # Posição da mão nos eixos x e y
