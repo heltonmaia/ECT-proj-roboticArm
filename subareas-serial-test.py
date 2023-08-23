@@ -35,11 +35,14 @@ def fechada(ser):
 def acima(ser):
     try:
         if hand_y >= 0.25 and hand_y < 0.33:
-            ser.write(b'41')
+            byte = str(41).encode()
+            ser.write(byte)
         if hand_y >= 0.33 and hand_y < 0.41:
-            ser.write(b'42')
+            byte = str(42).encode()
+            ser.write(byte)
         if hand_y >= 0.41 and hand_y <= 0.5:
-            ser.write(b'43')
+            byte = str(43).encode()
+            ser.write(byte)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
@@ -48,11 +51,14 @@ def acima(ser):
 def abaixo(ser):
     try:
         if hand_y > 0.5 and hand_y <= 0.58:
-            ser.write(b'51')
+            byte = str(51).encode()
+            ser.write(byte)
         if hand_y > 0.58 and hand_y <= 0.63:
-            ser.write(b'52')
+            byte = str(52).encode()
+            ser.write(byte)
         if hand_y > 0.63 and hand_y <= 0.75:
-            ser.write(b'53')
+            byte = str(53).encode()
+            ser.write(byte)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
@@ -61,13 +67,17 @@ def abaixo(ser):
 def direita(ser):
     try:
         if hand_x >= 0.25 and hand_x < 0.3125:
-            ser.write(b'21')
+            byte = str(21).encode()
+            ser.write(byte)
         if hand_x >= 0.3125 and hand_x < 0.375:
-            ser.write(b'22')
+            byte = str(22).encode()
+            ser.write(byte)
         if hand_x >= 0.375 and hand_x < 0.4375:
-            ser.write(b'23')
+            byte = str(23).encode()
+            ser.write(byte)
         if hand_x >= 0.4375 and hand_x <= 0.5:
-            ser.write(b'24')
+            byte = str(24).encode()
+            ser.write(byte)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
@@ -76,13 +86,17 @@ def direita(ser):
 def esquerda(ser):
     try:
         if hand_x > 0.5 and hand_x <= 0.5625:
-            ser.write(b'31')
+            byte = str(31).encode()
+            ser.write(byte)
         if hand_x > 0.5625 and hand_x <= 0.625:
-            ser.write(b'32')
+            byte = str(32).encode()
+            ser.write(byte)
         if hand_x > 0.625 and hand_x <= 0.6875:
-            ser.write(b'33')
+            byte = str(33).encode()
+            ser.write(byte)
         if hand_x > 0.6875 and hand_x <= 0.75:
-            ser.write(b'34')
+            byte = str(34).encode()
+            ser.write(byte)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
