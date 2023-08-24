@@ -35,14 +35,17 @@ def fechada(ser):
 def acima(ser):
     try:
         if hand_y >= 0.25 and hand_y < 0.33:
-            byte = str(41).encode()
-            ser.write(byte)
+            bt = 41
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_y >= 0.33 and hand_y < 0.41:
-            byte = str(42).encode()
-            ser.write(byte)
+            bt = 42
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_y >= 0.41 and hand_y <= 0.5:
-            byte = str(43).encode()
-            ser.write(byte)
+            bt = 43
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
@@ -51,14 +54,17 @@ def acima(ser):
 def abaixo(ser):
     try:
         if hand_y > 0.5 and hand_y <= 0.58:
-            byte = str(51).encode()
-            ser.write(byte)
+            bt = 51
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_y > 0.58 and hand_y <= 0.63:
-            byte = str(52).encode()
-            ser.write(byte)
+            bt = 52
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_y > 0.63 and hand_y <= 0.75:
-            byte = str(53).encode()
-            ser.write(byte)
+            bt = 53
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
@@ -67,17 +73,21 @@ def abaixo(ser):
 def direita(ser):
     try:
         if hand_x >= 0.25 and hand_x < 0.3125:
-            byte = str(21).encode()
-            ser.write(byte)
+            bt = 21
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_x >= 0.3125 and hand_x < 0.375:
-            byte = str(22).encode()
-            ser.write(byte)
+            bt = 22
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_x >= 0.375 and hand_x < 0.4375:
-            byte = str(23).encode()
-            ser.write(byte)
+            bt = 23
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_x >= 0.4375 and hand_x <= 0.5:
-            byte = str(24).encode()
-            ser.write(byte)
+            bt = 24
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
@@ -86,17 +96,21 @@ def direita(ser):
 def esquerda(ser):
     try:
         if hand_x > 0.5 and hand_x <= 0.5625:
-            byte = str(31).encode()
-            ser.write(byte)
+            bt = 31
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_x > 0.5625 and hand_x <= 0.625:
-            byte = str(32).encode()
-            ser.write(byte)
+            bt = 32
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_x > 0.625 and hand_x <= 0.6875:
-            byte = str(33).encode()
-            ser.write(byte)
+            bt = 33
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
         if hand_x > 0.6875 and hand_x <= 0.75:
-            byte = str(34).encode()
-            ser.write(byte)
+            bt = 34
+            btconv = bt.to_bytes(1, 'big')
+            ser.write(btconv)
     except:
         releaseConnections(cap, ser)
         sys.exit(1)
@@ -134,7 +148,7 @@ cap = cv2.VideoCapture(0)
 
 # Tenta se conectar a porta serial. Caso não consiga, exibe uma mensagem
 try:
-    ser = serial.Serial("COMX", 9600, timeout=0.01)
+    ser = serial.Serial("COM8", 9600, timeout=0.01)
     ser.open()
 except serial.SerialException:
     print('Conectando...')
