@@ -17,7 +17,7 @@ def releaseConnections(cap, ser):
     cv2.destroyAllWindows()
 
 # Função da mão aberta
-def aberta():
+def aberta(ser):
     try:
         cv2.putText(image, "|O|", (70, 60), 2, 0.35, (255, 0, 0), 1)
         ser.write(b'1')
@@ -26,7 +26,7 @@ def aberta():
         sys.exit(1)
 
 # Função da mão fechada
-def fechada():
+def fechada(ser):
     try:
         cv2.putText(image, "|C|", (70, 60), 2, 0.35, (255, 0, 0), 1)
         ser.write(b'0')
@@ -35,7 +35,7 @@ def fechada():
         sys.exit(1)
 
 # Função da mão acima
-def acima():
+def acima(ser):
     try:
         cv2.putText(image, "|U|", (85, 60), 2, 0.35, (255, 0, 0), 1)
 
@@ -62,7 +62,7 @@ def acima():
         sys.exit(1)
 
 # Função da mão abaixo
-def abaixo():
+def abaixo(ser):
     try:
         cv2.putText(image, "|D|", (85, 60), 2, 0.35, (255, 0, 0), 1)
 
@@ -89,7 +89,7 @@ def abaixo():
         sys.exit(1)
 
 # Função da mão à direita
-def direita():
+def direita(ser):
     try:
         cv2.putText(image, "|R|", (100, 60), 2, 0.35, (255, 0, 0), 1)
 
@@ -122,7 +122,7 @@ def direita():
         sys.exit(1)
 
 # Função da mão à esquerda
-def esquerda():
+def esquerda(ser):
     try:
         cv2.putText(image, "|L|", (100, 60), 2, 0.35, (255, 0, 0), 1)
 
