@@ -1,0 +1,1 @@
+https://medium.com/mlearning-ai/detecting-face-at-30-fps-on-cpu-on-mediapipe-python-dda264e26f20
