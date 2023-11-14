@@ -1,29 +1,39 @@
-'''
-Provê os dados de fala do google
-pip install SpeechRecognition
-
-Manipula audios
-pip install pyaudio
-
-Opcional (não tenho certeza do que faz)
-pip install pyttsx3
-'''
 import speech_recognition as sr
-import os
+import serial
 
-microfone = sr.Recognizer()
+# Create a serial object
+try:
+    ser = serial.Serial("COM8", 9600, timeout=0.01)
+    ser.open()
+except serial.SerialException:
+    print('Conectando...')
+
+# Create a recognizer object
+r = sr.Recognizer()
+
+# Create a microphone source
+mic = sr.Microphone()
+
+# Create a counter
+counter = 0
 
 while True:
-    with sr.Microphone() as mic:
+    # Start listening for speech
+    with mic as source:
+        audio = r.record(source, duration=5)  # Record for 5 seconds
+        print("\nRecording...")
 
-        microfone.adjust_for_ambient_noise(mic)
-        audio = microfone.listen(mic)
+    # Try to recognize the speech
+    try:
+        print("Recognizing...")
+        text = r.recognize_google(audio, language='pt-BR')
 
-        try:
-            frase = microfone.recognize_google(audio, language='pt-BR')
-            print(f'{frase}\n')
-            if "navegador" in frase:
-                os.system('start Opera.exe')
-        except sr.UnknownValueError():
-            microfone = sr.Recognizer()
-            continue
+        if 'abrir' in text or 'abra' in text or 'open' in text:
+            ser.write(b'1')
+        if 'fechar' in text or 'feche' in text or 'close' in text:
+            ser.write(b'0')
+        print(text)
+
+    except:
+        print("Sorry, I didn't get that")
+        
