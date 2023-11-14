@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import cv2
+import serial
 
 # Função para liberar conexão de video
 def releaseConnections(cap):
@@ -15,8 +16,15 @@ def calculateArea(rect):
 def calculateScore():
     return area * conf
 
+# Create a serial object
+try:
+    ser = serial.Serial("COM8", 9600, timeout=0.01)
+    ser.open()
+except serial.SerialException:
+    print('Conectando...')
+
 # Carrega o nosso modelo pré treinado
-model = YOLO('weight-hand-segmentation-v8.pt')
+model = YOLO('hand-segment-v8.pt')
 
 # Abre o dispositivo de captura
 cap = cv2.VideoCapture(0)
@@ -52,7 +60,7 @@ while cap.isOpened():
                 conf = boxes.data[0][4]
                 area = calculateArea(rect_coord)
 
-                score = calculateScore()
+                score = area
 
                 # Atualiza a melhor detecção se a pontuação for maior
                 if score > best_score:
@@ -64,9 +72,9 @@ while cap.isOpened():
 
             # Detecção da classe
             if best_detection.cls == 0:
-                print("Closed hand")
+                ser.write(b'0')
             elif best_detection.cls == 1:
-                print("Open hand")
+                ser.write(b'1')
 
         else:
             print('No detection')
