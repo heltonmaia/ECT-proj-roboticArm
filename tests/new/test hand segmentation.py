@@ -56,8 +56,8 @@ while cap.isOpened():
             # Detecta se há pelo menos uma mão na imagem
             if box.cls in [0, 1]:
 
-                rect_coord = boxes.data[0][:4]
-                conf = boxes.data[0][4]
+                rect_coord = box.data[0][:4]
+                conf = box.data[0][4]
                 area = calculateArea(rect_coord)
 
                 score = area
