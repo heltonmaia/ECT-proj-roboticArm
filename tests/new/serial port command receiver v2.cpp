@@ -34,13 +34,17 @@ void moveUp(){
   // Limites haste2 -> de 123 até 95
   
   if(haste1.read() < 160){
+    // Correção de posição
     haste1.stop();
+    haste1.slowmove(160, h_speed);
   } else {
     haste1.slomove(180, h_speed);
   }
 
   if(haste2.read() > 123 && haste2.read() < 95){
+    // Correção de posição
     haste2.stop();
+    haste2.slowmove(123, h_speed);
   } else {
     haste2.slowmove(95, h_speed);
   }
@@ -54,13 +58,17 @@ void moveDown(VarSpeedServo h1, h2){
   //Limites haste2 -> de 151 até 180
 
   if(haste1.read() < 132 && haste1.read() > 95){
+    // Correção de posição
     haste1.stop();
+    haste1.slowmove(132, h_speed);
   } else {
     haste1.slomove(95, h_speed);
   }
 
   if(haste2.read() < 151){
+    // Correção de posição
     haste2.stop();
+    haste2.slowmove(151, h_speed);
   } else {
     haste2.slowmove(180, h_speed);
   }
