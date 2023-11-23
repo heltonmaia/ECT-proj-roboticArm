@@ -196,8 +196,8 @@ while cap.isOpened():
                 m_coord_y = int((box.xyxy[0][1] + box.xyxy[0][3]) / 2)
 
                 # Exibe a área
-                #cv2.putText(frame, f'Area {i + 1}: {area:.2f}', (int(box.xyxy[0][0]), int(box.xyxy[0][3])),
-                #            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                cv2.putText(frame, f'Area {i + 1}: {area:.2f}', (int(box.xyxy[0][0]), int(box.xyxy[0][3])),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
                 # Exibe o ponto central
                 cv2.circle(frame, (m_coord_x, m_coord_y), 3, (0, 255, 0), 2)
