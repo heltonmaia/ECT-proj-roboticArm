@@ -27,6 +27,46 @@ void stopServos() {
   base.stop();
 }
 
+// Função experimental de mover para cima
+void moveUp(){
+
+  // Limites haste1 -> de 160 até 180
+  // Limites haste2 -> de 123 até 95
+  
+  if(haste1.read() < 160){
+    haste1.stop();
+  } else {
+    haste1.slomove(180, h_speed);
+  }
+
+  if(haste2.read() > 123 && haste2.read() < 95){
+    haste2.stop();
+  } else {
+    haste2.slowmove(95, h_speed);
+  }
+  
+}
+
+// Função experimental de mover para baixo
+void moveDown(VarSpeedServo h1, h2){
+
+  //Limites haste1 -> de 132 até 95
+  //Limites haste2 -> de 151 até 180
+
+  if(haste1.read() < 132 && haste1.read() > 95){
+    haste1.stop();
+  } else {
+    haste1.slomove(95, h_speed);
+  }
+
+  if(haste2.read() < 151){
+    haste2.stop();
+  } else {
+    haste2.slowmove(180, h_speed);
+  }
+
+}
+
 void loop() {
   int comando;
 
@@ -57,19 +97,13 @@ void loop() {
     }
 
     //ACIMA
-    // haste1 - de 160 até 180
-    // haste2 - de 123 até 95
     else if(comando == '4'){
-      haste1.slowmove(180, h_speed);
-      haste2.slowmove(95, h_speed);
+      moveUp();
     }
 
     //ABAIXO
-    //haste1 - de 132 até 95
-    //haste2 - de 151 até 180
     else if(comando == '5'){
-      haste1.slowmove(95, h_speed);
-      haste2.slowmove(180, h_speed);
+      moveDown();
     }
 
     //PARADA
