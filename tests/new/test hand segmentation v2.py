@@ -154,7 +154,7 @@ try:
     ser = serial.Serial("COM3", 9600)
     ser.open()
 except serial.SerialException:
-    pass
+    print('Conectando...')
 
 # Variáveis para armazenar as coordenadas do ponto central do frame anterior
 prev_m_coord_x = 0
