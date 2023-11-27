@@ -8,7 +8,7 @@ Current project members:
 - [Franklin Thiago Pereira Correia](https://github.com/FranklynThP)
 -->
 
-Supervisor: [Helton Maia](https://github.com/heltonmaia/) 
+Supervisor: [Helton Maia](https://heltonmaia.github.io/heltonmaia/) 
 
 # Robotic Arm Control Using Computer Vision and Machine Learning
 
