@@ -1,9 +1,12 @@
 Project developed at the Robotics and Automation Laboratory (UFRN/LAR)
 
-Project members:
+Current project members:
 - [Kennymar Bezera de Oliveira](https://github.com/KennymarOliveira)
+- [Thiago Vinicius Cardoso Lopes]
+<!---
 - [Geraldo Almeida Neto](https://github.com/geraldoAn)
 - [Franklin Thiago Pereira Correia](https://github.com/FranklynThP)
+-->
 
 Supervisor: [Helton Maia](https://github.com/heltonmaia/) 
 
