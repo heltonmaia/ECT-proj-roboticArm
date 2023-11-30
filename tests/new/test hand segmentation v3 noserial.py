@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import webbrowser
 import time
-#import serial
+# import serial
 
 
 def mouse_callback(event, x, y, flags, param):
@@ -17,8 +17,8 @@ def mouse_callback(event, x, y, flags, param):
         global click_x, click_y
         click_x, click_y = x, y
 
-def drawHomeInterface():
 
+def drawHomeInterface():
     window_size = (640, 480)
     window = np.zeros((window_size[1], window_size[0], 3), dtype=np.uint8)
     bg_color = (35, 15, 0)
@@ -105,34 +105,30 @@ def drawHomeInterface():
             releaseConnections(cap)
             break
 
+
 def drawInfo(window):
     global rect_top_left_x, rect_top_left_y, rect_bottom_right_x, rect_bottom_right_y
+    rect_top_left_x = 0
+    rect_top_left_y = 0
+    rect_bottom_right_x = 0
+    rect_bottom_right_y = 0
 
     x_min = 30
     x_max = 250
     y_min = 120
     y_max = 350
 
-    # Conversões para strings
-    cap_device = str(cap_device)
-    COM = str(COM)
-    fps = str(fps)
-    detected = str(detected)
-    in_range = str(in_range)
     hand_position = (m_coord_x, m_coord_y)
-    hand_position = str(hand_position)
-    
-    '''
+
     # Cantos do retângulo
-    rect_top_left_x = int(frame_w / 2) - 200
-    rect_top_left_y = int(frame_h / 2) - 150
-    rect_bottom_right_x = int(frame_w / 2) + 200
-    rect_bottom_right_y = int(frame_h / 2) + 150
-    '''
+    rect_top_left_x = 340
+    rect_top_left_y = 60
+    rect_bottom_right_x = 840
+    rect_bottom_right_y = 440
 
     info_text = "INFO"
     capture_device_text = "Capture Device:"
-    serial_port_text = "Serial Port (COM): X"
+    serial_port_text = "Serial Port (COM):"
     detected_text = "Detected:"
     in_range_text = "In range:"
     position_text = "Position:"
@@ -160,19 +156,17 @@ def drawInfo(window):
     cv2.rectangle(window, (x_min - 10, y_min), (x_max, y_max), (255, 255, 255), 1)
     cv2.rectangle(window, (x_min - 5, y_max + 25), (x_max - 135, y_max + 65), (255, 255, 255), 1)
     cv2.rectangle(window, (x_min + 125, y_max + 25), (x_max - 5, y_max + 65), (255, 255, 255), 1)
-    cv2.rectangle(window, (rect_top_left_x, rect_top_left_y), (rect_bottom_right_x, rect_bottom_right_y), (0, 0, 255), 3)
+    cv2.rectangle(window, (rect_top_left_x, rect_top_left_y),(rect_bottom_right_x, rect_bottom_right_y), (0, 0, 255), 3)
 
-    '''
     # Informações dinâmicas
-    cv2.putText(window, cap_device, (_, 150), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, COM, (_, 180), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, detected, (_, 210), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, in_range, (_, 240), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, hand_position, (_, 270), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, state, (_, 300), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, direction, (_, 330), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, fps, (_, 80), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    '''
+    cv2.putText(window, str(cap_device), (x_max - 70, 150), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, str(COM), (x_max - 45, 180), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, str(detected), (x_max - 130, 210), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, str(in_range), (x_max - 133, 240), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, str(hand_position), (x_max - 138, 270), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, str(state), (x_max - 163, 300), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, str(direction), (x_max - 130, 330), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, str(fps), (275, 30), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
 
 
 def releaseConnections(cap):
@@ -182,12 +176,14 @@ def releaseConnections(cap):
 
     cv2.destroyAllWindows()
 
+
 def aberta():
     try:
         print('aberta')
     except:
         releaseConnections(cap)
         sys.exit(1)
+
 
 def fechada():
     try:
@@ -196,12 +192,14 @@ def fechada():
         releaseConnections(cap)
         sys.exit(1)
 
+
 def direita():
     try:
         print('direita')
     except:
         releaseConnections(cap)
         sys.exit(1)
+
 
 def esquerda():
     try:
@@ -210,12 +208,14 @@ def esquerda():
         releaseConnections(cap)
         sys.exit(1)
 
+
 def acima():
     try:
         print('acima')
     except:
         releaseConnections(cap)
         sys.exit(1)
+
 
 def abaixo():
     try:
@@ -224,6 +224,7 @@ def abaixo():
         releaseConnections(cap)
         sys.exit(1)
 
+
 def parada():
     try:
         print('parada')
@@ -231,11 +232,14 @@ def parada():
         releaseConnections(cap)
         sys.exit(1)
 
+
 def calculateArea(rect):
     return (rect[2] - rect[0]) * (rect[3] - rect[1])
 
+
 def calculateScore(area, conf):
     return area * conf
+
 
 def calculateDirection(curr_x, curr_y, prev_x, prev_y):
     # Variação de posição
@@ -299,9 +303,19 @@ def chooseDirection(direction):
         # Mostra que a mão está parada fazendo o ponto ficar branco
         cv2.circle(frame, (m_coord_x, m_coord_y), 3, (255, 255, 255), 2)
 
-global cap_device, COM, detected, in_range, hand_position, state, direction, frame_w, frame_h, m_coord_x, m_coord_y, fps
 
+global cap_device, COM, detected, in_range, hand_position, state, direction, frame_w, frame_h, m_coord_x, m_coord_y, fps
+cap_device = 0
 COM = None
+detected = False
+in_range = False
+hand_position = None
+state = None
+direction = None
+m_coord_x = 0
+m_coord_y = 0
+fps = 0
+
 '''
 # Tenta criar um objeto para a porta serial
 try:
@@ -311,8 +325,7 @@ except serial.SerialException:
     print('Conectando...')
 '''
 
-model = YOLO('weight-hand-segmentation-v8.pt')
-cap_device = 0
+model = YOLO('hand-segment-v8.pt')
 cap = cv2.VideoCapture(cap_device)
 
 mouse_clicked = False
@@ -329,14 +342,13 @@ window = np.zeros((window_size[1], window_size[0], 3), dtype=np.uint8)
 bg_color = (35, 15, 0)
 window[:, :] = bg_color
 
-# Posição do feed de vídeo na janela
+# Posição e tamanho do feed de vídeo na janela
 video_position = (270, 10)
 video_size = (640, 480)
 
 while cap.isOpened():
 
     read, frame = cap.read()
-    frame_w, frame_h, _ = frame.shape
 
     if read:
 
@@ -370,7 +382,7 @@ while cap.isOpened():
                     in_range = False
 
                 cv2.putText(frame, f'Area {i + 1}: {area:.2f}', (int(box.xyxy[0][0]), int(box.xyxy[0][3])),
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
                 cv2.circle(frame, (m_coord_x, m_coord_y), 3, (0, 255, 0), 2)
 
@@ -403,30 +415,19 @@ while cap.isOpened():
             print('No hand detection\n')
 
 
-        '''
         # Desenha o feed de vídeo na posição desejada na janela e suas informações
-        if detected and in_range:
-            annotated_frame = results[0].plot(boxes=False)
-            window[video_position[1]:video_position[1] + video_size[1],
-            video_position[0]:video_position[0] + video_size[0]] = annotated_frame
-            drawInfo(window)
-        else:
-            annotated_frame = frame
-            window[video_position[1]:video_position[1] + video_size[1],
-            video_position[0]:video_position[0] + video_size[0]] = annotated_frame
-            drawInfo(window)
-        '''
-        
         annotated_frame = results[0].plot(boxes=False)
         window[video_position[1]:video_position[1] + video_size[1],
         video_position[0]:video_position[0] + video_size[0]] = annotated_frame
         drawInfo(window)
         cv2.imshow('Robotic Arm Control', window)
 
-        if cv2.waitKey(1) & 0xFF == ord('x'):
+        key = cv2.waitKey(1)
+
+        if key & 0xFF == ord('x'):
             break
-        if cv2.waitKey(1) & 0xFF == ord('s'):
-            #TEMPORÁRIO
+        if key & 0xFF == ord('s'):
+            # TEMPORÁRIO
             break
 
     else:
