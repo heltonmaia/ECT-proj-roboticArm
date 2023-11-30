@@ -105,11 +105,21 @@ def drawHomeInterface():
             break
 
 def drawInfo(window):
+    global rect_top_left_x, rect_top_left_y, rect_bottom_right_x, rect_bottom_right_y
 
     x_min = 30
     x_max = 250
     y_min = 120
     y_max = 350
+    hand_position = (m_coord_x, m_coord_y)
+
+    '''
+    # Cantos do retângulo
+    rect_top_left_x = int(frame_w / 2) - 200
+    rect_top_left_y = int(frame_h / 2) - 150
+    rect_bottom_right_x = int(frame_w / 2) + 200
+    rect_bottom_right_y = int(frame_h / 2) + 150
+    '''
 
     info_text = "INFO"
     capture_device_text = "Capture Device:"
@@ -146,6 +156,12 @@ def drawInfo(window):
     # Informações dinâmicas
     cv2.putText(window, cap_device, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
     cv2.putText(window, COM, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, detected, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, in_range, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, hand_position, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, state, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, direction, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    
 
 
 def releaseConnections(cap):
@@ -269,7 +285,7 @@ def chooseDirection(direction):
 
     else:
         parada()
-        # Mostra que a mão está parada fazendo o ponto ficar brando
+        # Mostra que a mão está parada fazendo o ponto ficar branco
         cv2.circle(frame, (m_coord_x, m_coord_y), 3, (255, 255, 255), 2)
 
 
@@ -284,7 +300,7 @@ except serial.SerialException:
     print('Conectando...')
 '''
 
-global cap_device, detected, in_range, position, state, direction, frame_w, frame_h
+global cap_device, detected, in_range, hand_position, state, direction, frame_w, frame_h, m_coord_x, m_coord_y, fps
 
 model = YOLO('weight-hand-segmentation-v8.pt')
 cap_device = 0
@@ -331,6 +347,11 @@ while cap.isOpened():
                 m_coord_x = int((box.xyxy[0][2] + box.xyxy[0][0]) / 2)
                 m_coord_y = int((box.xyxy[0][1] + box.xyxy[0][3]) / 2)
 
+                if m_coord_x > rect_top_left_x and m_coord_x < rect_bottom_right_x and m_coord_y > rect_top_left_y and m_coord_y < rect_bottom_right_y:
+                    in_range = True
+                else:
+                    in_range = False
+
                 cv2.putText(frame, f'Area {i + 1}: {area:.2f}', (int(box.xyxy[0][0]), int(box.xyxy[0][3])),
                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
 
@@ -354,16 +375,32 @@ while cap.isOpened():
             detected = True
 
             if best_detection.cls == 0:
+                state = "closed"
                 fechada()
             elif best_detection.cls == 1:
+                state = "open"
                 aberta()
 
         else:
             detected = False
             print('No hand detection\n')
 
-        annotated_frame = results[0].plot(boxes=False)
+
+        '''
         # Desenha o feed de vídeo na posição desejada na janela e suas informações
+        if detected and in_range:
+            annotated_frame = results[0].plot(boxes=False)
+            window[video_position[1]:video_position[1] + video_size[1],
+            video_position[0]:video_position[0] + video_size[0]] = annotated_frame
+            drawInfo(window)
+        else:
+            annotated_frame = frame
+            window[video_position[1]:video_position[1] + video_size[1],
+            video_position[0]:video_position[0] + video_size[0]] = annotated_frame
+            drawInfo(window)
+        '''
+        
+        annotated_frame = results[0].plot(boxes=False)
         window[video_position[1]:video_position[1] + video_size[1],
         video_position[0]:video_position[0] + video_size[0]] = annotated_frame
         drawInfo(window)
