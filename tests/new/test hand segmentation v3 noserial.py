@@ -3,6 +3,7 @@ import cv2
 import sys
 import numpy as np
 import webbrowser
+import time
 #import serial
 
 
@@ -111,8 +112,16 @@ def drawInfo(window):
     x_max = 250
     y_min = 120
     y_max = 350
-    hand_position = (m_coord_x, m_coord_y)
 
+    # Conversões para strings
+    cap_device = str(cap_device)
+    COM = str(COM)
+    fps = str(fps)
+    detected = str(detected)
+    in_range = str(in_range)
+    hand_position = (m_coord_x, m_coord_y)
+    hand_position = str(hand_position)
+    
     '''
     # Cantos do retângulo
     rect_top_left_x = int(frame_w / 2) - 200
@@ -153,15 +162,17 @@ def drawInfo(window):
     cv2.rectangle(window, (x_min + 125, y_max + 25), (x_max - 5, y_max + 65), (255, 255, 255), 1)
     cv2.rectangle(window, (rect_top_left_x, rect_top_left_y), (rect_bottom_right_x, rect_bottom_right_y), (0, 0, 255), 3)
 
+    '''
     # Informações dinâmicas
-    cv2.putText(window, cap_device, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, COM, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, detected, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, in_range, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, hand_position, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, state, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, direction, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    
+    cv2.putText(window, cap_device, (_, 150), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, COM, (_, 180), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, detected, (_, 210), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, in_range, (_, 240), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, hand_position, (_, 270), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, state, (_, 300), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, direction, (_, 330), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, fps, (_, 80), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    '''
 
 
 def releaseConnections(cap):
@@ -288,19 +299,17 @@ def chooseDirection(direction):
         # Mostra que a mão está parada fazendo o ponto ficar branco
         cv2.circle(frame, (m_coord_x, m_coord_y), 3, (255, 255, 255), 2)
 
+global cap_device, COM, detected, in_range, hand_position, state, direction, frame_w, frame_h, m_coord_x, m_coord_y, fps
 
+COM = None
 '''
 # Tenta criar um objeto para a porta serial
 try:
-    global COM
-    COM = 3
     ser = serial.Serial(f"COM{COM}", 9600)
     ser.open()
 except serial.SerialException:
     print('Conectando...')
 '''
-
-global cap_device, detected, in_range, hand_position, state, direction, frame_w, frame_h, m_coord_x, m_coord_y, fps
 
 model = YOLO('weight-hand-segmentation-v8.pt')
 cap_device = 0
@@ -311,6 +320,8 @@ drawHomeInterface()
 
 prev_m_coord_x = 0
 prev_m_coord_y = 0
+prev_frame_time = 0
+new_frame_time = 0
 
 # Configurações da janela principal
 window_size = (920, 500)
@@ -335,6 +346,12 @@ while cap.isOpened():
 
         best_detection = None
         best_score = 0
+
+        # FPS
+        new_frame_time = time.time()
+        fps = 1 / (new_frame_time - prev_frame_time)
+        prev_frame_time = new_frame_time
+        fps = int(fps)
 
         for i, box in enumerate(boxes):
 
