@@ -3,6 +3,7 @@ import cv2
 import sys
 import numpy as np
 import webbrowser
+#import serial
 
 
 def mouse_callback(event, x, y, flags, param):
@@ -140,6 +141,11 @@ def drawInfo(window):
     cv2.rectangle(window, (x_min - 10, y_min), (x_max, y_max), (255, 255, 255), 1)
     cv2.rectangle(window, (x_min - 5, y_max + 25), (x_max - 135, y_max + 65), (255, 255, 255), 1)
     cv2.rectangle(window, (x_min + 125, y_max + 25), (x_max - 5, y_max + 65), (255, 255, 255), 1)
+    cv2.rectangle(window, (rect_top_left_x, rect_top_left_y), (rect_bottom_right_x, rect_bottom_right_y), (0, 0, 255), 3)
+
+    # Informações dinâmicas
+    cv2.putText(window, cap_device, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, COM, (), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
 
 
 def releaseConnections(cap):
@@ -267,9 +273,22 @@ def chooseDirection(direction):
         cv2.circle(frame, (m_coord_x, m_coord_y), 3, (255, 255, 255), 2)
 
 
+'''
+# Tenta criar um objeto para a porta serial
+try:
+    global COM
+    COM = 3
+    ser = serial.Serial(f"COM{COM}", 9600)
+    ser.open()
+except serial.SerialException:
+    print('Conectando...')
+'''
+
+global cap_device, detected, in_range, position, state, direction, frame_w, frame_h
 
 model = YOLO('weight-hand-segmentation-v8.pt')
-cap = cv2.VideoCapture(0)
+cap_device = 0
+cap = cv2.VideoCapture(cap_device)
 
 mouse_clicked = False
 drawHomeInterface()
@@ -290,6 +309,7 @@ video_size = (640, 480)
 while cap.isOpened():
 
     read, frame = cap.read()
+    frame_w, frame_h, _ = frame.shape
 
     if read:
 
@@ -299,8 +319,6 @@ while cap.isOpened():
 
         best_detection = None
         best_score = 0
-
-        drawInfo(window)
 
         for i, box in enumerate(boxes):
 
@@ -333,18 +351,22 @@ while cap.isOpened():
 
         if best_detection is not None:
 
+            detected = True
+
             if best_detection.cls == 0:
                 fechada()
             elif best_detection.cls == 1:
                 aberta()
 
         else:
+            detected = False
             print('No hand detection\n')
 
         annotated_frame = results[0].plot(boxes=False)
-        # Desenha o feed de vídeo na posição desejada na janela
+        # Desenha o feed de vídeo na posição desejada na janela e suas informações
         window[video_position[1]:video_position[1] + video_size[1],
         video_position[0]:video_position[0] + video_size[0]] = annotated_frame
+        drawInfo(window)
         cv2.imshow('Robotic Arm Control', window)
 
         if cv2.waitKey(1) & 0xFF == ord('x'):
