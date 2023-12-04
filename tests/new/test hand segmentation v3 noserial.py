@@ -36,6 +36,7 @@ def drawHomeInterface():
     shortcuts_font_scale = 0.5
     font_thickness = 1
     font_color = (255, 255, 255)
+    line_type = 0
 
     (title_text_width, _), _ = cv2.getTextSize(title_text, font, font_scale, font_thickness)
     title_position_x = int((window_size[0] - title_text_width) / 2)
@@ -79,7 +80,7 @@ def drawHomeInterface():
         cv2.putText(window, about_text, (about_position_x, about_position_y),
                     font, btn_font_scale, font_color, font_thickness, cv2.LINE_AA)
         cv2.putText(window, shortcuts_text, (shortcuts_position_x, shortcuts_position_y),
-                    font, shortcuts_font_scale, font_color, font_thickness, cv2.LINE_AA)
+                    font, shortcuts_font_scale, font_color, font_thickness, line_type)
 
         cv2.namedWindow('Robotic Arm Control')
         cv2.setMouseCallback('Robotic Arm Control', mouse_callback)
@@ -121,10 +122,10 @@ def drawInfo(window):
     hand_position = (m_coord_x, m_coord_y)
 
     # Cantos do retângulo
-    rect_top_left_x = 340
-    rect_top_left_y = 60
-    rect_bottom_right_x = 840
-    rect_bottom_right_y = 440
+    rect_top_left_x = 380
+    rect_top_left_y = 90
+    rect_bottom_right_x = 800
+    rect_bottom_right_y = 410
 
     info_text = "INFO"
     capture_device_text = "Capture Device:"
@@ -156,7 +157,6 @@ def drawInfo(window):
     cv2.rectangle(window, (x_min - 10, y_min), (x_max, y_max), (255, 255, 255), 1)
     cv2.rectangle(window, (x_min - 5, y_max + 25), (x_max - 135, y_max + 65), (255, 255, 255), 1)
     cv2.rectangle(window, (x_min + 125, y_max + 25), (x_max - 5, y_max + 65), (255, 255, 255), 1)
-    cv2.rectangle(window, (rect_top_left_x, rect_top_left_y),(rect_bottom_right_x, rect_bottom_right_y), (0, 0, 255), 3)
 
     # Informações dinâmicas
     cv2.putText(window, str(cap_device), (x_max - 70, 150), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
@@ -166,7 +166,13 @@ def drawInfo(window):
     cv2.putText(window, str(hand_position), (x_max - 138, 270), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
     cv2.putText(window, str(state), (x_max - 163, 300), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
     cv2.putText(window, str(direction), (x_max - 130, 330), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
-    cv2.putText(window, str(fps), (275, 30), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    cv2.putText(window, f'fps: {str(fps)}', (275, 30), font, font_scale, font_color, font_thickness, cv2.LINE_AA)
+    if in_range:
+        cv2.rectangle(window, (rect_top_left_x, rect_top_left_y), (rect_bottom_right_x, rect_bottom_right_y),
+                      (0, 255, 0), 3)
+    else:
+        cv2.rectangle(window, (rect_top_left_x, rect_top_left_y), (rect_bottom_right_x, rect_bottom_right_y),
+                      (0, 0, 255), 3)
 
 
 def releaseConnections(cap):
@@ -254,48 +260,48 @@ def calculateDirection(curr_x, curr_y, prev_x, prev_y):
 
     if delta_x > pixel_threshold:
         if delta_y > diagonal_threshold:
-            return "diagonal inferior esquerda"
+            return "l left"
         elif delta_y < -diagonal_threshold:
-            return "diagonal superior esquerda"
+            return "u left"
         else:
-            return "esquerda"
+            return "left"
     elif delta_x < -pixel_threshold:
         if delta_y > diagonal_threshold:
-            return "diagonal inferior direita"
+            return "l right"
         elif delta_y < -diagonal_threshold:
-            return "diagonal superior direita"
+            return "u right"
         else:
-            return "direita"
+            return "right"
 
     if delta_y > pixel_threshold:
-        return "abaixo"
+        return "down"
     elif delta_y < -pixel_threshold:
-        return "acima"
+        return "up"
 
-    return "parada"
+    return "still"
 
 
 # Função para decidir a direção da mão
 def chooseDirection(direction):
-    if direction == "direita":
+    if direction == "right":
         direita()
-    elif direction == "diagonal inferior direita":
+    elif direction == "l right":
         abaixo()
         direita()
-    elif direction == "diagonal superior direita":
+    elif direction == "u right":
         acima()
         direita()
-    elif direction == "esquerda":
+    elif direction == "left":
         esquerda()
-    elif direction == "diagonal inferior esquerda":
+    elif direction == "l left":
         abaixo()
         esquerda()
-    elif direction == "diagonal superior esquerda":
+    elif direction == "u left":
         acima()
         abaixo()
-    elif direction == "acima":
+    elif direction == "up":
         acima()
-    elif direction == "abaixo":
+    elif direction == "down":
         abaixo()
 
     else:
@@ -306,7 +312,7 @@ def chooseDirection(direction):
 
 global cap_device, COM, detected, in_range, hand_position, state, direction, frame_w, frame_h, m_coord_x, m_coord_y, fps
 cap_device = 0
-COM = None
+COM = 0
 detected = False
 in_range = False
 hand_position = None
@@ -325,7 +331,7 @@ except serial.SerialException:
     print('Conectando...')
 '''
 
-model = YOLO('hand-segment-v8.pt')
+model = YOLO('weight-hand-segmentation-v8.pt')
 cap = cv2.VideoCapture(cap_device)
 
 mouse_clicked = False
@@ -335,16 +341,6 @@ prev_m_coord_x = 0
 prev_m_coord_y = 0
 prev_frame_time = 0
 new_frame_time = 0
-
-# Configurações da janela principal
-window_size = (920, 500)
-window = np.zeros((window_size[1], window_size[0], 3), dtype=np.uint8)
-bg_color = (35, 15, 0)
-window[:, :] = bg_color
-
-# Posição e tamanho do feed de vídeo na janela
-video_position = (270, 10)
-video_size = (640, 480)
 
 while cap.isOpened():
 
@@ -376,7 +372,7 @@ while cap.isOpened():
                 m_coord_x = int((box.xyxy[0][2] + box.xyxy[0][0]) / 2)
                 m_coord_y = int((box.xyxy[0][1] + box.xyxy[0][3]) / 2)
 
-                if m_coord_x > rect_top_left_x and m_coord_x < rect_bottom_right_x and m_coord_y > rect_top_left_y and m_coord_y < rect_bottom_right_y:
+                if m_coord_x > rect_top_left_x - 270 and m_coord_x < rect_bottom_right_x - 270 and m_coord_y > rect_top_left_y - 10 and m_coord_y < rect_bottom_right_y - 10:
                     in_range = True
                 else:
                     in_range = False
@@ -412,8 +408,18 @@ while cap.isOpened():
 
         else:
             detected = False
+            in_range = False
             print('No hand detection\n')
 
+        # Configurações da janela principal
+        window_size = (920, 500)
+        window = np.zeros((window_size[1], window_size[0], 3), dtype=np.uint8)
+        bg_color = (35, 15, 0)
+        window[:, :] = bg_color
+
+        # Posição e tamanho do feed de vídeo na janela
+        video_position = (270, 10)
+        video_size = (640, 480)
 
         # Desenha o feed de vídeo na posição desejada na janela e suas informações
         annotated_frame = results[0].plot(boxes=False)
@@ -427,8 +433,7 @@ while cap.isOpened():
         if key & 0xFF == ord('x'):
             break
         if key & 0xFF == ord('s'):
-            # TEMPORÁRIO
-            break
+            drawHomeInterface()
 
     else:
         print('Error while reading camera feed')
