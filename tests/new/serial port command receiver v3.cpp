@@ -1,8 +1,8 @@
 #include <VarSpeedServo.h>
 
 #define g_speed 30
-#define b_speed 20
-#define h_speed 10
+#define b_speed 30 
+#define h_speed 15
 #define haste1_pin 3
 #define haste2_pin 4
 #define base_pin 5
@@ -27,9 +27,17 @@ void setup() {
 }
 
 void loop() {
-    base.slowmove(0, h_speed);
-    //haste1.slowmove(120, h_speed);
-    //haste2.slowmove(150, h_speed);
+    if(Serial.available() >= 4){
+    angulo_base = Serial.read();
+    angulo_garra = Serial.read();
+    angulo_haste1 = Serial.read();
+    angulo_haste2 = Serial.read();
+
+    base.slowmove(angulo_base, b_speed);
+    garra.slowmove(angulo_garra, g_speed);
+    haste1.slowmove(angulo_haste1, h_speed);
+    haste2.slowmove(angulo_haste2, h_speed);
     
+  }
 
 }
