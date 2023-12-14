@@ -30,15 +30,15 @@ void loop() {
 
     if(Serial.available() >= 4){
 
-    angulo_base = Serial.read();
-    angulo_garra = Serial.read();
-    angulo_haste1 = Serial.read();
-    angulo_haste2 = Serial.read();
+    rotating_base_angle = Serial.read();
+    gripper_angle = Serial.read();
+    arm1_angle = Serial.read();
+    arm2_angle = Serial.read();
 
-    base.slowmove(angulo_base, b_speed);
-    garra.slowmove(angulo_garra, g_speed);
-    haste1.slowmove(angulo_haste1, h_speed);
-    haste2.slowmove(angulo_haste2, h_speed);
+    rotating_base.slowmove(rotating_base_angle, b_speed);
+    gripper.slowmove(gripper_angle, griper_speed);
+    arm1.slowmove(arm1_angle, arms_speed);
+    arm2.slowmove(arm2_angle, arms_speed);
     
   }
 
