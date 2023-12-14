@@ -289,6 +289,7 @@ new_frame_time = 0
 while cap.isOpened():
 
     read, frame = cap.read()
+    frame = cv2.flip(frame, 1)
 
     if read:
 
@@ -340,15 +341,14 @@ while cap.isOpened():
                     best_score = score
                     best_detection = box
 
-                last_angle_garra = 0
-                if best_detection.cls == 0:
-                    angle_garra = 10
-                    last_angle_garra = angle_garra
-                elif best_detection.cls == 1:
-                    angle_garra = 120
-                    last_angle_garra = angle_garra
-                else:
-                    angle_garra = last_angle_garra
+                if best_detection is not None:
+                    detected = True
+                    if best_detection.cls == 0:
+                        state = "closed"
+                        angle_garra = 10
+                    elif best_detection.cls == 1:
+                        state = "open"
+                        angle_garra = 120
 
                 if in_range:
                     posicao_braco(ser, angle_base, angle_garra, angle_haste1, angle_haste2)
@@ -356,12 +356,7 @@ while cap.isOpened():
 
 
 
-        if best_detection is not None:
-            detected = True
-            if best_detection.cls == 0:
-                state = "closed"
-            elif best_detection.cls == 1:
-                state = "open"
+
 
             print(best_detection.cls)
 
