@@ -1,3 +1,4 @@
+import numpy
 import numpy as np
 import cv2
 import webbrowser
@@ -105,7 +106,8 @@ def draw_home_interface():
             break
 
 
-def draw_info(m_coord_x: float, m_coord_y: float, window, cap_device: int, COM: int, detected: bool, in_range: bool, state: str, direction: str, fps: int):
+def draw_info(m_coord_x: float, m_coord_y: float, window, cap_device: int, COM: int, detected: bool, in_range: bool,
+              state: str, direction: str, fps: int):
     x_min = 30
     x_max = 250
     y_min = 120
@@ -160,3 +162,33 @@ def draw_info(m_coord_x: float, m_coord_y: float, window, cap_device: int, COM: 
     else:
         cv2.rectangle(window, (rect_top_left_x, rect_top_left_y), (rect_bottom_right_x, rect_bottom_right_y),
                       (0, 0, 255), 3)
+
+
+def text_area(frame: any, i: int, area: float, b1: any, b2: any):
+    cv2.putText(frame, f'Area {i + 1}: {area:.2f}', (b1, b2),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+
+
+def draw_center(frame: any, m_coord_x: int, m_coord_y: int):
+    cv2.circle(frame, (m_coord_x, m_coord_y), 3, (0, 255, 0), 2)
+
+
+def window_config(results: any):
+    window_size = (920, 500)
+    window = np.zeros((window_size[1], window_size[0], 3), dtype=np.uint8)
+    bg_color = (35, 15, 0)
+    window[:, :] = bg_color
+
+    video_position = (270, 10)
+    video_size = (640, 480)
+
+    annotated_frame = results
+    window[video_position[1]:video_position[1] + video_size[1],
+    video_position[0]:video_position[0] + video_size[0]] = annotated_frame
+    return window
+
+
+def releaseConnections(cap):
+    if cap.isOpened():
+        cap.release()
+    cv2.destroyAllWindows()
