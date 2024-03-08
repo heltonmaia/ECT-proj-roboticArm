@@ -15,7 +15,7 @@ def calculateScore():
 model = YOLO('weight-hand-segmentation-v11.pt')
 
 cap = cv2.VideoCapture(0)
-
+hand_class = None
 while cap.isOpened():
 
     read, frame = cap.read()
@@ -44,17 +44,20 @@ while cap.isOpened():
                     best_detection = box
 
         if best_detection is not None:
-
             if best_detection.cls == 0:
+                hand_class = 'Closed Hand'
                 print('closed hand detected')
             elif best_detection.cls == 1:
+                hand_class = 'Open Hand'
                 print('open hand detected')
-
         else:
+            hand_class = 'No detection'
             print('No detection')
 
         annotated_frame = results[0].plot(boxes=False)
-        cv2.putText(annotated_frame, "Press x to close program", (10, 470), 2, 0.35, (255, 255, 255), 1)
+        cv2.putText(annotated_frame, "Press x to close program", (10, 470), 2, 0.5, (255, 255, 255), 1)
+        cv2.putText(annotated_frame, hand_class, (10, 20), 2, 0.5, (255, 255, 255), 1)
+
         cv2.imshow('Camera Feed', annotated_frame)
 
         if cv2.waitKey(10) & 0xFF == ord('x'):
