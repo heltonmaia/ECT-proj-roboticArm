@@ -5,8 +5,8 @@ from numpy import ndarray, dtype, floating, float_
 from numpy._typing import _64Bit
 
 
-#def control_arm(ser, rotating_base_angle: int, gripper_angle: int, arm1_angle: int, arm2_angle: int):
-#    ser.write(struct.pack('BBBB', rotating_base_angle, gripper_angle, arm1_angle, arm2_angle))
+def control_arm(ser, rotating_base_angle: int, gripper_angle: int, arm1_angle: int, arm2_angle: int):
+    ser.write(struct.pack('BBBB', rotating_base_angle, gripper_angle, arm1_angle, arm2_angle))
 
 def control_arm(rotating_base_angle: int, gripper_angle: int, arm1_angle: int, arm2_angle: int):
     print(rotating_base_angle, gripper_angle, arm1_angle, arm2_angle)
