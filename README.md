@@ -70,7 +70,7 @@ If you don't have a webcam, you can use the Droidcam app on a smartphone to use 
 
 Once you have access to a camera, use Jupyter Notebook to open the file "right hand detection in range.py" available in this project, then change the kernel within the code editor to your virtual environment's one. Now you can run the script and see if the right hand is detected within the specified range.
 
-<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/hand%20detection%20in%20range.PNG" style="width: 600px; height: 420px;"></p>
+<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/hand%20detection%20in%20range.png" style="width: 600px; height: 420px;"></p>
 
 After the correct detection of the hand it is necessary to close the jupyter notebook and deactivate the virtual environment, and only after the Arduino part is done be activated again, otherwise both codes will try to take control of the serial port and the serial commands comming from the python script will not be read. The next access to the Anaconda prompt and the Jupyter Notebook should be via the Anaconda Navigator, after running it as administrator and while the Arduino script is running.
 
@@ -108,7 +108,7 @@ Now you can run the the code and controll the robotic arm by the movements of yo
 # **Examples**
 The following images are examples that show what approximate positions the right hand must be in for detections to be made correctly.
 <h3 align="center"><b>Open hand</b></h3>
-<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/open%20hand.PNG" style="width: 600px; height: 420px;"></p>
+<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/open%20hand.png" style="width: 600px; height: 420px;"></p>
 
 <h3 align="center"><b>Closed hand</b></h3>
-<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/closed%20hand.PNG" style="width: 600px; height: 420px;"></p>
+<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/closed%20hand.png" style="width: 600px; height: 420px;"></p>
