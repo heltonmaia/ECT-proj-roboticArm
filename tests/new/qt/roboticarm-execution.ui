@@ -29,7 +29,7 @@
    <string notr="true">background-color: rgb(20, 30, 50);
 color: white;</string>
   </property>
-  <widget class="QPushButton" name="stop_button">
+  <widget class="QPushButton" name="back_button">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -45,7 +45,7 @@ color: white;</string>
     </font>
    </property>
    <property name="text">
-    <string>Stop</string>
+    <string>Back</string>
    </property>
   </widget>
   <widget class="QPushButton" name="exit_button">
@@ -265,7 +265,7 @@ color: white;</string>
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QWidget" name="camera_feed_widget" native="true">
+  <widget class="QLabel" name="camera_feed_widget">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -273,6 +273,31 @@ color: white;</string>
      <width>640</width>
      <height>480</height>
     </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="start_stop_button">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>370</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Start</string>
    </property>
   </widget>
  </widget>
