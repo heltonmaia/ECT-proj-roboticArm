@@ -25,6 +25,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(20, 30, 50);
+color: white;</string>
+  </property>
   <widget class="QPushButton" name="stop_button">
    <property name="geometry">
     <rect>
@@ -34,11 +38,17 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>Stop (S)</string>
+    <string>Stop</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="exit_button">
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -47,8 +57,14 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Verdana</family>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>Exit (X)</string>
+    <string>Exit</string>
    </property>
   </widget>
   <widget class="QLabel" name="info_label">
@@ -62,6 +78,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>15</pointsize>
     </font>
    </property>
@@ -77,12 +94,13 @@
     <rect>
      <x>30</x>
      <y>130</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -98,12 +116,13 @@
     <rect>
      <x>30</x>
      <y>160</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -119,12 +138,13 @@
     <rect>
      <x>30</x>
      <y>190</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -140,12 +160,13 @@
     <rect>
      <x>30</x>
      <y>220</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -161,12 +182,13 @@
     <rect>
      <x>30</x>
      <y>250</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -182,12 +204,13 @@
     <rect>
      <x>30</x>
      <y>280</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -203,12 +226,13 @@
     <rect>
      <x>30</x>
      <y>310</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -219,17 +243,18 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_7">
+  <widget class="QLabel" name="fps_label">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>340</y>
-     <width>141</width>
+     <width>150</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>Verdana</family>
      <pointsize>12</pointsize>
     </font>
    </property>
@@ -238,6 +263,16 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="camera_feed_widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>10</y>
+     <width>640</width>
+     <height>480</height>
+    </rect>
    </property>
   </widget>
  </widget>
