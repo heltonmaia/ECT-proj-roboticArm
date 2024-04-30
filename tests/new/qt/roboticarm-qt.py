@@ -31,7 +31,7 @@ pixel_threshold = 5
 class RoboticArmMenu(QWidget):
     def __init__(self):
         super().__init__()
-        uic.loadUi('roboticarm-menu.ui', self)
+        uic.loadUi('roboticarm_menu.ui', self)
         self.setWindowTitle('Robotic Arm Control')
         self.setWindowIcon(QIcon('roboticarm.png'))
 
@@ -55,7 +55,7 @@ class RoboticArmMenu(QWidget):
 class RoboticArmExecution(QWidget):
     def __init__(self):
         super().__init__()
-        uic.loadUi('roboticarm-execution.ui', self)
+        uic.loadUi('roboticarm_execution.ui', self)
         self.setWindowTitle('Robotic Arm Control')
 
         # Exit button closes the program
