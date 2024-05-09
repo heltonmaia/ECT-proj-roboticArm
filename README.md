@@ -4,7 +4,7 @@ This project encompasses computer vision, machine learning, 3D printing and inte
 
 [Project video](https://github.com/heltonmaia/ECT-proj-roboticArm/assets/4681481/2796c126-4182-4c66-be8b-e16110343908)
 
-# Using the project
+# How to use
 ### **Requirements**
   - Anaconda package ([Install Guide](https://docs.anaconda.com/free/navigator/install/)) or any IDE of your choice
   - Python 3.10 ([Install Guide](https://www.python.org/downloads/release/python-3100/)) (If you choose to use an IDE of your choice)
