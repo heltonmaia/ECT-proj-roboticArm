@@ -362,7 +362,6 @@ class thread_1(QThread):
                     self.info_update_signal.emit(cap_device, COM, detected, in_range, hand_position, state, direction, fps)
                 except Exception as e:
                     print(e)
-                #self.info_update_signal.emit(cap_device, serial_port, detected, in_range, hand_position, state, direction, fps)
 
     def stop(self):
         self.ThreadActive = False
