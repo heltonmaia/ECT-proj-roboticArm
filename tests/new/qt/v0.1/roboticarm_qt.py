@@ -308,27 +308,38 @@ class thread_1(QThread):
                         direction = detection_infos.calculate_direction(pixel_threshold, m_coord_x, m_coord_y, prev_m_coord_x, prev_m_coord_y)
 
                         if robotic_arm.is_moving_axis_x(pixel_threshold, prev_m_coord_x, m_coord_x):
+                            rotating_base_angle = robotic_arm.calculate_rotating_base_angle(m_coord_x)
                             prev_m_coord_x = m_coord_x
                         if robotic_arm.is_moving_axis_y(pixel_threshold, prev_m_coord_y, m_coord_y):
+                            arm1_angle, arm2_angle = robotic_arm.calculate_angle_hastes(m_coord_y)
                             prev_m_coord_y = m_coord_y
 
                         if score > best_score:
                             best_score = score
                             best_detection = box
 
-                if best_detection is not None:
-                    detected = True
-                    if best_detection.cls == 0:
-                        hand_class = 'Closed Hand'
-                        state = "Closed"
-                    elif best_detection.cls == 1:
-                        hand_class = 'Open Hand'
-                        state = "Open"
-                else:
+                        if best_detection is not None:
+                            detected = True
+                            gripper_angle, state = robotic_arm.calculate_gripper_angle(best_detection.cls)
+                            detected = True
+                            if best_detection.cls == 0:
+                                hand_class = 'Closed Hand'
+                                state = "Closed"
+                            elif best_detection.cls == 1:
+                                hand_class = 'Open Hand'
+                                state = "Open"
+                        else:
+                            detected = False
+                            in_range = False
+                            hand_class = 'None'
+                            state = hand_class
+
+                        if in_range:
+                            robotic_arm.control_arm(rotating_base_angle, gripper_angle, arm1_angle, arm2_angle)
+
+                if best_detection is None:
                     detected = False
                     in_range = False
-                    hand_class = 'None'
-                    state = hand_class
 
                 # Image processing
                 annotated_frame = results[0].plot(boxes=False)
