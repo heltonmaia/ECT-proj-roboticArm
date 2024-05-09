@@ -1,0 +1,3 @@
+com_port=3
+capture_device=0
+control_method=gestures
