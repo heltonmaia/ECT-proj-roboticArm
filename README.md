@@ -6,7 +6,7 @@ This project encompasses computer vision, machine learning, 3D printing and inte
 
 # How to use
 ### **Requirements**
-  - Anaconda package ([Install Guide](https://docs.anaconda.com/free/navigator/install/)) or any IDE of your choice
+  - Anaconda package ([Install Guide]([https://docs.anaconda.com/free/navigator/install/](https://docs.anaconda.com/free/anaconda/install/windows/))) or any IDE of your choice
   - Python 3.10 ([Install Guide](https://www.python.org/downloads/release/python-3100/)) (If you choose to use an IDE of your choice)
   - OpenCV
   - Ultralytics
