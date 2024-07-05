@@ -372,6 +372,7 @@ class thread_1(QThread):
 
                         if in_range:
                             robotic_arm.control_arm(self.COM, rotating_base_angle, gripper_angle, arm1_angle, arm2_angle)
+                            self.is_port_open = True
 
                 if best_detection is None:
                     detected = False
