@@ -3,7 +3,6 @@ import sys
 import time
 import webbrowser
 import cv2
-import serial
 import detection_infos
 import robotic_arm
 import available_capture_devices
@@ -13,11 +12,9 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6 import uic
 
-VERSION = 0.1.1
+VERSION = "0.1.2"
 
 # Default values
-global detected, in_range, hand_class, hand_position, state, direction, m_coord_x, m_coord_y
-global fps, prev_m_coord_x, prev_m_coord_y, prev_frame_time, new_frame_time, pixel_threshold, ser
 detected = False
 in_range = False
 hand_class = None
@@ -32,12 +29,6 @@ prev_m_coord_y = 0
 prev_frame_time = 0
 new_frame_time = 0
 pixel_threshold = 5
-ser = None
-
-# Closes serial connection
-def release_serial_connection(ser):
-    if ser.is_open:
-        ser.close()
 
 class RoboticArmMenu(QWidget):
     def __init__(self):
@@ -57,19 +48,30 @@ class RoboticArmMenu(QWidget):
         self.setup_button.clicked.connect(self.show_setup_window)
 
         # Start button loads execution window and hides the menu window
-        self.execution_window = RoboticArmExecution()
+        self.execution_window = None
         self.start_button.clicked.connect(self.show_execution_window)
 
     def redirect_to_github(self):
         webbrowser.open('https://github.com/heltonmaia/ECT-proj-roboticArm/')
 
-
     def show_setup_window(self):
         self.setup_window.show()
         self.hide()
+
     def show_execution_window(self):
-        self.execution_window.show()
-        self.hide()
+        # Reads setup values again before showing execution window
+        control_method = self.setup_window.get_control_method()
+
+        if control_method == "gestures":
+            self.execution_window = RoboticArmGesturesExecution()
+        elif control_method == "voice":
+            self.execution_window = RoboticArmAudioExecution()
+        else:
+            self.execution_window = None
+
+        if self.execution_window:
+            self.execution_window.show()
+            self.hide()
 
 class RoboticArmSetup(QWidget):
     available_devices = available_capture_devices.capture_devices()
@@ -81,45 +83,16 @@ class RoboticArmSetup(QWidget):
         self.setWindowIcon(QIcon('roboticarm.png'))
 
         # Default values
-        global COM, cap_device, control_method
-        cap_device = 0
-        COM = 3
-        control_method = "gestures"
-
-        # Verifies the setup.txt file
-        if not os.path.exists('setup.txt'):
-            with open('setup.txt', 'w') as setup_file:
-                try:
-                    setup_file.write(f'com_port={COM}\n')
-                    setup_file.write(f'capture_device={cap_device}\n')
-                    setup_file.write(f'control_method={control_method}')
-                except Exception as e:
-                    print("Error while creating setup.txt:", e)
-        else:
-            with open('setup.txt', 'r') as setup_file:
-                lines = setup_file.readlines()
-                for line in lines:
-                    line = line.strip()
-                    if line.startswith('com_port='):
-                        COM = int(line.split('=')[1])
-                    elif line.startswith('capture_device='):
-                        cap_device = int(line.split('=')[1])
-                    elif line.startswith('control_method='):
-                        control_method = str(line.split('=')[1])
+        self.COM = 3
+        self.cap_device = 0
+        self.control_method = "gestures"
+        self.read_setup_file()
 
         # Set default values for the items
-        self.com_port_text.setText(str(COM))
-        self.capture_device_text.setText(str(cap_device))
+        self.com_port_text.setText(str(self.COM))
+        self.capture_device_text.setText(str(self.cap_device))
         self.control_method_box.addItems(["gestures", "voice"])
-        self.control_method_box.setCurrentText(control_method)
-
-        # Set the default serial port connection
-        release_serial_connection(ser)
-        try:
-            ser = serial.Serial(f"COM{str(COM)}", 9600)
-            ser.open()
-        except serial.SerialException:
-            pass
+        self.control_method_box.setCurrentText(self.control_method)
 
         # Connect signals to change the default values for the items
         self.com_port_text.textChanged.connect(self.validate_com_port)
@@ -128,6 +101,25 @@ class RoboticArmSetup(QWidget):
 
         # Ok button closes the setup window, saves the values and shows the menu window again
         self.ok_button.clicked.connect(self.show_menu_window)
+
+    def read_setup_file(self):
+        if os.path.exists('setup.txt'):
+            with open('setup.txt', 'r') as setup_file:
+                lines = setup_file.readlines()
+                for line in lines:
+                    line = line.strip()
+                    if line.startswith('com_port='):
+                        self.COM = int(line.split('=')[1])
+                    elif line.startswith('capture_device='):
+                        self.cap_device = int(line.split('=')[1])
+                    elif line.startswith('control_method='):
+                        self.control_method = str(line.split('=')[1])
+
+    def get_capture_device(self):
+        return self.cap_device
+
+    def get_com_port(self):
+        return self.COM
 
     def show_menu_window(self):
         if self.com_port_text.text() != '' and self.capture_device_text.text() != '':
@@ -144,7 +136,8 @@ class RoboticArmSetup(QWidget):
                 self.com_port_text.setText(text[:-1])
             else:
                 self.com_port_label.setStyleSheet("QLabel { color: white; }")
-                self.update_com_port(text)
+                self.COM = int(text)
+                self.update_setup_file()
         except Exception as e:
             print("Error while updating com_port:", e)
 
@@ -159,55 +152,34 @@ class RoboticArmSetup(QWidget):
                 device_id = int(text)
                 if device_id in self.available_devices:
                     self.capture_device_label.setStyleSheet("QLabel { color: white; }")
-                    self.update_capture_device(text)
+                    self.cap_device = int(text)
+                    self.update_setup_file()
                 else:
                     self.capture_device_label.setStyleSheet("QLabel { color: red; }")
                     print("Device not available")
         except Exception as e:
-            print("Error while updating the capture_device", e)
-
-    def update_com_port(self, text):
-        global COM
-        try:
-            COM = int(text)
-            self.update_setup_file()
-
-            # Updates the serial object
-            release_serial_connection(ser)
-            try:
-                ser = serial.Serial(f"COM{COM}", 9600)
-                ser.open()
-            except serial.SerialException:
-                pass
-        except Exception as e:
-            print("Error while updating com_port:", e)
-
-    def update_capture_device(self, text):
-        global cap_device
-        try:
-            cap_device = int(text)
-            self.update_setup_file()
-        except Exception as e:
-            print("Error while updating capture_device:", e)
+            print("Error while updating capture device:", e)
 
     def update_control_method(self, text):
-        global control_method
-        control_method = text
+        self.control_method = text
         self.update_setup_file()
 
     def update_setup_file(self):
         try:
             with open('setup.txt', 'w') as setup_file:
-                setup_file.write(f'com_port={COM}\n')
-                setup_file.write(f'capture_device={cap_device}\n')
-                setup_file.write(f'control_method={control_method}')
+                setup_file.write(f'com_port={self.COM}\n')
+                setup_file.write(f'capture_device={self.cap_device}\n')
+                setup_file.write(f'control_method={self.control_method}')
         except Exception as e:
             print("Error while updating setup.txt:", e)
 
-class RoboticArmExecution(QWidget):
+    def get_control_method(self):
+        return self.control_method
+
+class RoboticArmGesturesExecution(QWidget):
     def __init__(self):
         super().__init__()
-        uic.loadUi('roboticarm_execution.ui', self)
+        uic.loadUi('roboticarm_gestures_execution.ui', self)
         self.setWindowTitle(f'Robotic Arm Control v{VERSION}')
         self.setWindowIcon(QIcon('roboticarm.png'))
 
@@ -275,8 +247,45 @@ class RoboticArmExecution(QWidget):
             self.thread_1.stop()
             self.start_stop_button.setText("Start")
 
+class RoboticArmAudioExecution(QWidget):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('roboticarm_audio_execution.ui', self)
+        self.setWindowTitle(f'Robotic Arm Control v{VERSION}')
+        self.setWindowIcon(QIcon('roboticarm.png'))
+
+        # Exit button closes the program
+        self.exit_button.clicked.connect(self.close)
+
+        # Back button closes the execution window and shows the menu window again
+        self.back_button.clicked.connect(self.show_menu_window)
+
+    def show_menu_window(self):
+        menu_window.show()
+        self.start_stop_button.setText("Start")
+        self.close()
+
+
 # Thread to handle the camera feed
 class thread_1(QThread):
+
+    def __init__(self):
+        super().__init__()
+        if os.path.exists('setup.txt'):
+            with open('setup.txt', 'r') as setup_file:
+                lines = setup_file.readlines()
+                for line in lines:
+                    line = line.strip()
+                    if line.startswith('com_port='):
+                        self.COM = int(line.split('=')[1])
+                    elif line.startswith('capture_device='):
+                        self.cap_device = int(line.split('=')[1])
+                    elif line.startswith('control_method='):
+                        self.control_method = str(line.split('=')[1])
+        else:
+            self.COM = 3
+            self.cap_device = 0
+            self.control_method = "gestures"
 
     image_update_signal = pyqtSignal(QImage)
     info_update_signal = pyqtSignal(int, int, bool, bool, tuple, str, str, int)
@@ -285,7 +294,7 @@ class thread_1(QThread):
 
         self.ThreadActive = True
         model = YOLO('weight-hand-segmentation-v14.pt')
-        cap = cv2.VideoCapture(cap_device)
+        cap = cv2.VideoCapture(self.cap_device)
         prev_m_coord_x = 0
         prev_m_coord_y = 0
         prev_frame_time = 0
@@ -327,6 +336,7 @@ class thread_1(QThread):
                         area = detection_infos.calculate_area(rect_coord)
                         m_coord_x = int((box.xyxy[0][2] + box.xyxy[0][0]) / 2)
                         m_coord_y = int((box.xyxy[0][1] + box.xyxy[0][3]) / 2)
+                        area_location = [int(box.xyxy[0][0]), int(box.xyxy[0][3])]
                         hand_position = (m_coord_x, m_coord_y)
                         in_range = detection_infos.is_in_range(m_coord_x, m_coord_y)
                         score = detection_infos.calculate_score(area, conf)
@@ -360,7 +370,7 @@ class thread_1(QThread):
                             state = hand_class
 
                         if in_range:
-                            robotic_arm.control_arm(rotating_base_angle, gripper_angle, arm1_angle, arm2_angle)
+                            robotic_arm.control_arm(self.COM, rotating_base_angle, gripper_angle, arm1_angle, arm2_angle)
 
                 if best_detection is None:
                     detected = False
@@ -374,7 +384,9 @@ class thread_1(QThread):
 
                 try:
                     if in_range:
-                        cv2.rectangle(flipped_image, (rtlx, rtly), (rbrx, rbry), (0, 255, 0), 3)
+                        cv2.rectangle(flipped_image, (rtlx, rtly), (rbrx, rbry), (255, 0, 0), 3)
+                        cv2.putText(frame, f'Area: {area:.2f}', (area_location[0], area_location[1]),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
                     else:
                         cv2.rectangle(flipped_image, (rtlx, rtly), (rbrx, rbry), (255, 0, 0), 3)
 
@@ -395,12 +407,11 @@ class thread_1(QThread):
 
                 self.image_update_signal.emit(final_image)
                 try:
-                    self.info_update_signal.emit(cap_device, COM, detected, in_range, hand_position, state, direction, fps)
+                    self.info_update_signal.emit(self.cap_device, self.COM, detected, in_range, hand_position, state, direction, fps)
                 except Exception as e:
                     print(e)
 
     def stop(self):
-        release_serial_connection(ser)
         self.ThreadActive = False
         self.quit()
 
@@ -410,7 +421,6 @@ if __name__ == '__main__':
     menu_window = RoboticArmMenu()
     menu_window.show()
     try:
-        release_serial_connection(ser)
         sys.exit(app.exec())
     except SystemExit:
         print("Closing Window...")
