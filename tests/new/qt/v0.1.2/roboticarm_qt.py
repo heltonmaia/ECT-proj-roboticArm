@@ -65,7 +65,8 @@ class RoboticArmMenu(QWidget):
         if control_method == "gestures":
             self.execution_window = RoboticArmGesturesExecution()
         elif control_method == "voice":
-            self.execution_window = RoboticArmAudioExecution()
+            #self.execution_window = RoboticArmAudioExecution()
+            self.execution_window = RoboticArmGesturesExecution()
         else:
             self.execution_window = None
 
@@ -246,7 +247,7 @@ class RoboticArmGesturesExecution(QWidget):
         else:
             self.thread_1.stop()
             self.start_stop_button.setText("Start")
-
+'''
 class RoboticArmAudioExecution(QWidget):
     def __init__(self):
         super().__init__()
@@ -264,7 +265,7 @@ class RoboticArmAudioExecution(QWidget):
         menu_window.show()
         self.start_stop_button.setText("Start")
         self.close()
-
+'''
 
 # Thread to handle the camera feed
 class thread_1(QThread):
