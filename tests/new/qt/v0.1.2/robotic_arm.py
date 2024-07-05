@@ -6,9 +6,11 @@ from numpy import ndarray, dtype, floating, float_
 from numpy._typing import _64Bit
 
 def control_arm(COM: int, rotating_base_angle: int, gripper_angle: int, arm1_angle: int, arm2_angle: int):
-    #ser = serial.Serial(f"COM{str(COM)}", 9600)
-    #ser.open()
-    #ser.write(struct.pack('BBBB', rotating_base_angle, gripper_angle, arm1_angle, arm2_angle))
+    ser = serial.Serial(f"COM{COM}", 9600)
+    if not ser.is_open:
+        ser.open()
+    ser.write(struct.pack('BBBB', rotating_base_angle, gripper_angle, arm1_angle, arm2_angle))
+    print(ser)
     print(f"{COM}, {rotating_base_angle}, {gripper_angle}, {arm1_angle}, {arm2_angle}")
 
 def calculate_rotating_base_angle(m_coord_x: float) -> int:
