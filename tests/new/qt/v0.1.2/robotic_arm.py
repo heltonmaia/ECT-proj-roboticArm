@@ -1,14 +1,15 @@
 import struct
+import serial
 import numpy as np
 from typing import Tuple, Any
 from numpy import ndarray, dtype, floating, float_
 from numpy._typing import _64Bit
 
-def control_arm(ser, rotating_base_angle: int, gripper_angle: int, arm1_angle: int, arm2_angle: int):
-    ser.write(struct.pack('BBBB', rotating_base_angle, gripper_angle, arm1_angle, arm2_angle))
-
-def control_arm(rotating_base_angle: int, gripper_angle: int, arm1_angle: int, arm2_angle: int):
-    print(rotating_base_angle, gripper_angle, arm1_angle, arm2_angle)
+def control_arm(COM: int, rotating_base_angle: int, gripper_angle: int, arm1_angle: int, arm2_angle: int):
+    #ser = serial.Serial(f"COM{str(COM)}", 9600)
+    #ser.open()
+    #ser.write(struct.pack('BBBB', rotating_base_angle, gripper_angle, arm1_angle, arm2_angle))
+    print(f"{COM}, {rotating_base_angle}, {gripper_angle}, {arm1_angle}, {arm2_angle}")
 
 def calculate_rotating_base_angle(m_coord_x: float) -> int:
     rotating_base_angle = map(m_coord_x, 110, 530, 0, 180)
