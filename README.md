@@ -132,16 +132,17 @@ The following images are examples that show what approximate positions the hand 
 <p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/closed%20hand.png?raw=true" style="width: 600px; height: 420px;"></p>
 
 # Authors
-
+<!---
 - [Kennymar Bezera de Oliveira](https://github.com/KennymarOliveira)
 - [Thiago Vinicius Cardoso Lopes](https://github.com/thiagoclopes)
-<!---
-- [Geraldo Almeida Neto](https://github.com/geraldoAn)
-- [Franklin Thiago Pereira Correia](https://github.com/FranklynThP)
--->
+
+
+
 
 Supervisor: [Helton Maia](https://heltonmaia.github.io/heltonmaia/) 
 
 # Acknowledgements
 
 Project developed for educational purposes at the Automation and Robotics Laboratory (LAR) of the School of Science and Technology (ECT) of the Federal University of Rio Grande do Norte (UFRN).
+
+-->
