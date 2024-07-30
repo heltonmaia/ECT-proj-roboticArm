@@ -1,0 +1,9 @@
+ipython==8.12.3
+librosa==0.10.2.post1
+matplotlib==3.9.0
+numpy==1.26.4
+opencv_python==4.10.0.82
+PyAudio==0.2.14
+scipy==1.13.1
+tensorflow==2.16.1
+tensorflow_intel==2.16.1
