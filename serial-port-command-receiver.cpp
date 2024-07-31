@@ -35,8 +35,8 @@ void loop() {
     arm1_angle = Serial.read();
     arm2_angle = Serial.read();
 
-    rotating_base.slowmove(rotating_base_angle, b_speed);
-    gripper.slowmove(gripper_angle, griper_speed);
+    rotating_base.slowmove(rotating_base_angle, rotating_base_speed);
+    gripper.slowmove(gripper_angle, gripper_speed);
     arm1.slowmove(arm1_angle, arms_speed);
     arm2.slowmove(arm2_angle, arms_speed);
     
