@@ -28,7 +28,7 @@ void setup() {
 
 void loop() {
 
-    if(Serial.available() >= 4){
+  if(Serial.available() >= 4){
 
     rotating_base_angle = Serial.read();
     gripper_angle = Serial.read();
