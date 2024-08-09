@@ -12,7 +12,7 @@ This project encompasses computer vision, machine learning, 3D printing, and Ard
   - Arduino IDE ([Install Guide](https://www.arduino.cc/en/software))
   - Webcam or a smartphone
     
-### **Configuration**
+### **Configuring the project**
 Download the "Hybrid-Robotic-Arm-Control.zip" file and extract it to a folder with the same name. This will be the main project directory.
 
 Open the folder in your preferred IDE.
@@ -33,7 +33,18 @@ Download the "requirements.txt" file available in this repository. Open the term
 pip install -r C:\Path\To\The\File\requirements.txt
 ```
 
-<p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/hand%20detection%20in%20range.png?raw=true" style="width: 600px; height: 420px;"></p>
+### **Accessing the Camera and Microphone**
+
+If you don't have dedicated camera or microphone, you can use the Droidcam mobile app to use your smartphone as both devices.
+  - Install the Droidcam app (Android or IOS): [Download Page](https://www.dev47apps.com)
+  - Install the Droidcam client on Windows: [Download Page](https://www.dev47apps.com/droidcam/windows/)
+  - Then follow the instructions to connect: [Connection Guide](https://www.dev47apps.com/droidcam/connect/)
+
+Configuring the Arduino IDE
+
+Once you installed the Arduino IDE, you can download the zip file of the VarSpeedServo library available [here](https://github.com/netlabtoolkit/VarSpeedServo) and install it by following [this guide](https://docs.arduino.cc/software/ide-v1/tutorials/installing-libraries).
+
+Now use the file "serial-port-command-receiver.cpp" in the Arduino IDE.
 
 ### **Assembling the circuit**
 The following circuit was simulated using the [Wokwi](https://wokwi.com/projects/new/arduino-uno) online platform, and considering that the four servomotors are already fitted to the robotic arm, the circuit of this image bellow must be physically assembled.
@@ -55,28 +66,43 @@ Select the right serial port within the IDE, compile and send the code to the bo
 
 ### **Using the App**
 
+Run the "roboticarm_qt.py" file. If you encounter any errors related to DLLs, copy the "libomp140.x86_64.dll" file available [here](https://github.com/heltonmaia/ECT-proj-roboticArm/tree/main/fixes) to your system's "C:\Windows\System32\" folder.
+
+After running the application, go to the Setup screen and enter the serial port corresponding to your Arduino.
+
+Choose the capture device (usually 0 or 1, but it may differ if you have multiple cameras and microphones connected to your computer).
+
+Select the desired control method, and now everything is ready.
+
+Start the robotic arm control through the main menu.
 
 # Examples
 
+### **Gestures**
+
 The following images are examples that show what approximate positions the hand must be in for detections to be made correctly.
+
 <h3 align="center"><b>Open hand</b></h3>
 <p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/open%20hand.png?raw=true" style="width: 600px; height: 420px;"></p>
 
 <h3 align="center"><b>Closed hand</b></h3>
 <p align="center"><img src="https://github.com/heltonmaia/ECT-proj-roboticArm/blob/main/images/closed%20hand.png?raw=true" style="width: 600px; height: 420px;"></p>
 
+### **Voice commands**
+
+These are the voice commands that our audio classification neural network currently identifies.
+
+```
+up, down, left, right, open, close
+```
+
 # Authors
-<!---
-- [Kennymar Bezera de Oliveira](https://github.com/KennymarOliveira)
-- [Thiago Vinicius Cardoso Lopes](https://github.com/thiagoclopes)
-
-
-
+- [Kennymar Oliveira](https://github.com/KennymarOliveira)
+- [Thiago Lopes](https://github.com/thiagoclopes)
+- [Virna Aguiar](https://github.com/virnaaguiaar)
 
 Supervisor: [Helton Maia](https://heltonmaia.github.io/heltonmaia/) 
 
 # Acknowledgements
 
 Project developed for educational purposes at the Automation and Robotics Laboratory (LAR) of the School of Science and Technology (ECT) of the Federal University of Rio Grande do Norte (UFRN).
-
--->
