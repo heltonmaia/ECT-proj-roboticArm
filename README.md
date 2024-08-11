@@ -35,7 +35,7 @@ pip install -r C:\Path\To\The\File\requirements.txt
 
 ### **Accessing the Camera and Microphone**
 
-If you don't have dedicated camera or microphone, you can use the Droidcam mobile app to use your smartphone as both devices.
+If you don't have dedicated a camera or microphone, you can use the Droidcam mobile app to use your smartphone as both devices.
   - Install the Droidcam app (Android or IOS): [Download Page](https://www.dev47apps.com)
   - Install the Droidcam client on Windows: [Download Page](https://www.dev47apps.com/droidcam/windows/)
   - Then follow the instructions to connect: [Connection Guide](https://www.dev47apps.com/droidcam/connect/)
